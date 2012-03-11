@@ -32,10 +32,13 @@ layer:insertProp ( p1 )
 
 
 function onMouseLeftEvent ( down )
+   -- Mouse left press
    if down == true then
-      print ( "Mouse left press" )
+      p1:setIndex( ( p1:getIndex () % 3 ) + 1 ) 
+      print ( p1:getIndex() )
+   -- Mouse right press
    else
-      print ( "Mouse left release" )
+
    end
 end
 MOAIInputMgr.device.mouseLeft:setCallback ( onMouseLeftEvent ) 
@@ -53,7 +56,7 @@ textbox:setYFlip ( true )
 function onPointerEvent ( x, y )
    mx, my = layer:wndToWorld ( x, y )
    textbox:setLoc ( mx, my ) 
-   textbox:setString ( tostring ( 'X' .. mx .. ' ' .. 'Y' .. my ) )
+   textbox:setString ( tostring ( 'X' .. mx .. '\n' .. 'Y' .. my ) )
    layer:insertProp ( textbox )
    -- print ( 'Pointer:', x, y )
 end
