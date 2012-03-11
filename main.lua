@@ -45,7 +45,7 @@ MOAIInputMgr.device.mouseLeft:setCallback ( onMouseLeftEvent )
 
 charcodes = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .,:;!?()&/-'
 font = MOAIFont.new ()
-font:loadFromTTF ( 'arialbd.ttf', charcodes, 16, 163 )
+font:loadFromTTF ( 'fonts/arialbd.ttf', charcodes, 16, 163 )
 
 textbox = MOAITextBox.new ()
 textbox:setFont ( font )
