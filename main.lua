@@ -6,6 +6,19 @@ Y_SIZE = 420
 
 MOAISim.openWindow("Fast Game", X_SIZE, Y_SIZE)
 
+mainThread = MOAIThread.new ()
+mainThread:run (
+   function ()
+      local run = true
+      while run do
+         coroutine.yield ()
+         if MOAIInputMgr.device.mouseLeft:down () then
+            print 'Pressed - (always polling)'
+         end 
+      end 
+   end
+)
+
 viewport = MOAIViewport.new ()
 viewport:setScale ( X_SIZE, Y_SIZE )
 viewport:setSize ( X_SIZE, Y_SIZE )
@@ -30,6 +43,11 @@ p1:setIndex ( 1 )
 p1:setLoc ( 0, -20 )
 layer:insertProp ( p1 )
 
+function onKeyboard ( key, down)
+   print ('key:  ' .. tostring ( key ) )
+   print ('down: ' .. tostring ( down ) )
+end
+MOAIInputMgr.device.keyboard:setCallback( onKeyboard )
 
 function onMouseLeftEvent ( down )
    -- Mouse left press
@@ -62,4 +80,3 @@ function onPointerEvent ( x, y )
 end
 MOAIInputMgr.device.pointer:setCallback ( onPointerEvent )
 
--- I'm doomed perhaps there's a  better . checking  noe .... 
