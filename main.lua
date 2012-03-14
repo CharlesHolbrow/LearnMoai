@@ -4,20 +4,12 @@
 X_SIZE = 640
 Y_SIZE = 420
 
+UP_ARROW = 357
+DOWN_ARROW = 359
+LEFT_ARROW = 356
+RIGHT_ARROW = 358
+print ( 'LUA_PATH: ' .. package.path )
 MOAISim.openWindow("Fast Game", X_SIZE, Y_SIZE)
-
-mainThread = MOAIThread.new ()
-mainThread:run (
-   function ()
-      local run = true
-      while run do
-         coroutine.yield ()
-         if MOAIInputMgr.device.mouseLeft:down () then
-            print 'Pressed - (always polling)'
-         end 
-      end 
-   end
-)
 
 viewport = MOAIViewport.new ()
 viewport:setScale ( X_SIZE, Y_SIZE )
@@ -79,4 +71,36 @@ function onPointerEvent ( x, y )
    -- print ( 'Pointer:', x, y )
 end
 MOAIInputMgr.device.pointer:setCallback ( onPointerEvent )
+
+mainRoutine = MOAICoroutine.new ()
+mainRoutine:run (
+   function ()
+      local run = true
+      playerSpeed = 50
+      while run do
+
+         local dt = coroutine.yield ()
+         local dx, dy = 0, 0
+
+         if MOAIInputMgr.device.keyboard:keyIsDown (UP_ARROW) then
+            dy = dy + 1
+         end
+         if MOAIInputMgr.device.keyboard:keyIsDown ( DOWN_ARROW ) then 
+            dy = dy - 1
+         end
+         if MOAIInputMgr.device.keyboard:keyIsDown ( LEFT_ARROW ) then 
+            dx = dx - 1
+         end
+         if MOAIInputMgr.device.keyboard:keyIsDown ( RIGHT_ARROW ) then 
+            dx = dx + 1
+         end
+         p1:moveLoc (dx * playerSpeed * dt, dy * playerSpeed * dt, 0)
+
+
+         if MOAIInputMgr.device.mouseLeft:down () then
+            print 'Mouse Left Pressed'
+         end 
+      end 
+   end
+)
 
