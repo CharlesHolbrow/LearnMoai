@@ -3,8 +3,8 @@
 --==============================================================
 
 local function createViewport ( xSize, ySize, xScale, yScale)
-   if xScale == nil then xScale = xSize end
-   if yScale == nil then yScale = ySize end
+   xScale = xScale or xSize
+   yScale = yScale or ySize
 
    local viewport = MOAIViewport.new ()
    viewport:setSize ( xSize, ySize )
@@ -20,6 +20,7 @@ local function addNewLayerToViewport ( viewport )
    return layer
 end
 
+-- TODO: find a better way to set the size - global variables are bad
 MOAISim.openWindow("Fast Game", X_SIZE, Y_SIZE)
 mainViewport = createViewport ( X_SIZE, Y_SIZE )
 mainLayer = addNewLayerToViewport ( mainViewport )

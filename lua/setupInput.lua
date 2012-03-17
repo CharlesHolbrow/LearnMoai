@@ -16,7 +16,7 @@ function onMouseLeftEvent ( down )
 		p1:setIndex( ( p1:getIndex () % 3 ) + 1 ) 
 		print ( p1:getIndex() )
 
-   	-- Mouse right press
+   -- Mouse right press
 	else
 
 	end
