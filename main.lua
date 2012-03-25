@@ -25,10 +25,8 @@ World Building
 X_SIZE = 900
 Y_SIZE = 760
 
-UP_ARROW = 357
-DOWN_ARROW = 359
-LEFT_ARROW = 356
-RIGHT_ARROW = 358
+
+
 print ( 'LUA_PATH: ' .. package.path )
 
 
@@ -87,34 +85,13 @@ textbox:setYFlip ( true )
 
 -- TODO: move more of the movement stuff into setupInput
 mainRoutine = MOAICoroutine.new ()
-mainRoutine:run (
-   function ()
-      local run = true
-      playerSpeed = 75 
-      while run do
+mainRoutine:run ( function () 
+   local run = true
+   while run do
 
-         local dt = coroutine.yield ()
-         local dx, dy = 0, 0
+      local dt = coroutine.yield ()
+      frameInputRoutine ( dt )
 
-         if MOAIInputMgr.device.keyboard:keyIsDown (UP_ARROW) then
-            dy = dy + 1
-         end
-         if MOAIInputMgr.device.keyboard:keyIsDown ( DOWN_ARROW ) then 
-            dy = dy - 1
-         end
-         if MOAIInputMgr.device.keyboard:keyIsDown ( LEFT_ARROW ) then 
-            dx = dx - 1
-         end
-         if MOAIInputMgr.device.keyboard:keyIsDown ( RIGHT_ARROW ) then 
-            dx = dx + 1
-         end
-         p1:moveLoc (dx * playerSpeed * dt, dy * playerSpeed * dt, 0)
-
-
-         if MOAIInputMgr.device.mouseLeft:down () then
-            print 'Mouse Left Pressed'
-         end 
-      end 
    end
-)
+end )
 
