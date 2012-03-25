@@ -1,6 +1,10 @@
-Base = { init = function () print ( 'Base.init called' ) end }
+Class = {}
 
-function Base:new ( o )
+function Class:init () 
+		print ( 'Class:init' ) 
+end 
+
+function Class:new ( o )
 	o = o or {}
 
 	-- Use 'self' for metatable and __index 
@@ -11,7 +15,7 @@ function Base:new ( o )
 	return o
 end
 
-Character = Base:new ()
+Character = Class:new ()
 
 function Character:init ()
 	print ( 'Init Character')
@@ -21,7 +25,6 @@ function Character:init ()
 	self.prop:setIndex ( 1 )
 	self.prop:setLoc ( 0, 0 )
 end
-
 
 -- temporarily expose some prop methods
 function Character:getIndex ()
