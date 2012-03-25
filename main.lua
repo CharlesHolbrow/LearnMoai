@@ -25,9 +25,6 @@ World Building
 X_SIZE = 900
 Y_SIZE = 760
 
---print ( 'LUA_PATH: ' .. package.path )
-
-
 -- could use load file instead of require, 
 -- in that case, I wouln't need to init global variables in another file
 require 'lua/Class'
@@ -36,33 +33,12 @@ require 'lua/setupView'
 mainDecks = {}
 require 'lua/setupDecks'
 require 'lua/setupInput'
+require 'lua/Map'
 require 'lua/Character'
 
--- TODO: Hex Grid Class
--- Create the tile grid
-grid = MOAIGrid.new ()
-grid:initHexGrid ( 4, 12, 64 )
---grid:initRectGrid ( 4, 12, 64, 64)
-grid:setRepeat ( false )
-
-for y = 1, 12 do
-   for x = 1, 4 do
-      grid:setTile ( x, y, (x * 2 ) - ( y % 2 ) )
-   end
-end
-
-tileDeck = MOAITileDeck2D.new ()
-tileDeck:setTexture ( "img/terrain4x4.png" )
-tileDeck:setSize ( 4, 4, 0.25, 0.216796875 )
-
-prop = MOAIProp2D.new ()
-prop:setDeck ( tileDeck )
-prop:setGrid ( grid )
-prop:setLoc ( 0, 0 )
-prop:setLoc ( -440, -330 )
---prop:forceUpdate ()
-mainLayer:insertProp ( prop )
---prop:seekLoc ( -500, -330, 4 )
+-- create hex map
+mainMap = Map:new ()
+mainLayer:insertProp ( mainMap.prop )
 
 -- Create player prop
 -- TODO: create a table of props. update setupInput.lua
@@ -83,7 +59,8 @@ textbox:setYFlip ( true )
 
 
 mainRoutine = MOAICoroutine.new ()
-mainRoutine:run ( function () 
+mainRoutine:run ( 
+function () 
    local run = true
    while run do
 

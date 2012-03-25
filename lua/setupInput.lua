@@ -28,8 +28,9 @@ local function onPointerEvent ( x, y )
    local mx, my = mainLayer:wndToWorld ( x, y )
    textbox:setLoc ( mx, my )  -- TODO: needs fix, textbox should not be global
    textbox:setString ( tostring ( 'X' .. mx .. '\n' .. 'Y' .. my ) )
-   mainLayer:insertProp ( textbox )
-   -- print ( 'Pointer:', x, y )
+   mainLayer:insertProp ( textbox ) -- TODO: don't need to insert prop on EACH pointer event
+
+   mainMap:worldToTileCoordinates ( mx, my )
 end
 MOAIInputMgr.device.pointer:setCallback ( onPointerEvent )
 
@@ -62,7 +63,7 @@ local frameKeyActionMap = {
 
 function frameInputRoutine ( dt )
 
-   playerSpeed = 75 
+   playerSpeed = 100 
    dx, dy = 0, 0
 
    for key, action in pairs ( frameKeyActionMap ) do 

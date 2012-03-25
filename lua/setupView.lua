@@ -22,5 +22,5 @@ end
 
 -- TODO: find a better way to set the size - global variables are bad
 MOAISim.openWindow("Fast Game", X_SIZE, Y_SIZE)
-mainViewport = createViewport ( X_SIZE, Y_SIZE )
+mainViewport = createViewport ( X_SIZE , Y_SIZE, X_SIZE, Y_SIZE)
 mainLayer = addNewLayerToViewport ( mainViewport )
