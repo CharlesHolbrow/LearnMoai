@@ -14,9 +14,9 @@ function onMouseLeftEvent ( down )
    -- Mouse left press
 	if down == true then
 		p1:setIndex( ( p1:getIndex () % 3 ) + 1 ) 
-		print ( p1:getIndex() )
+      print ( p1:getIndex() )
 
-   -- Mouse right press
+   -- Mouse left release
 	else
 
 	end

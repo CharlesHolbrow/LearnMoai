@@ -38,12 +38,15 @@ require 'lua/setupView'
 
 mainDecks = {}
 require 'lua/setupDecks'
-
 require 'lua/setupInput'
+require 'lua/character'
+
+--print ( 'char type:' .. type ( character ) ) -- DEBUG
 
 -- Create the tile grid
 grid = MOAIGrid.new ()
 grid:initHexGrid ( 4, 12, 64 )
+--grid:initRectGrid ( 4, 12, 64, 64)
 grid:setRepeat ( false )
 
 for y = 1, 12 do
@@ -63,14 +66,13 @@ prop:setLoc ( 0, 0 )
 prop:setLoc ( -440, -330 )
 --prop:forceUpdate ()
 mainLayer:insertProp ( prop )
+--prop:seekLoc ( -500, -330, 4 )
 
 -- Create player prop
 -- TODO: create a table of props. update setupInput.lua
-p1 = MOAIProp2D.new ()
-p1:setDeck ( mainDecks.characters )
-p1:setIndex ( 1 )
-p1:setLoc ( 0, 0 )
-mainLayer:insertProp ( p1 )
+p1 = Character:new ()
+mainLayer:insertProp ( p1.prop )
+
 
 -- TODO: make font and textbox local somehow 
 local charcodes = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .,:;!?()&/-'
@@ -79,7 +81,7 @@ font:loadFromTTF ( 'fonts/arialbd.ttf', charcodes, 16, 163 )
 
 textbox = MOAITextBox.new ()
 textbox:setFont ( font )
-textbox:setTextSize ( font:getScale () )
+--textbox:setTextSize ( font:getScale () )
 textbox:setRect ( -50, -50, 50, 50 )
 textbox:setYFlip ( true )
 
