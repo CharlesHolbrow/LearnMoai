@@ -34,14 +34,13 @@ print ( 'LUA_PATH: ' .. package.path )
 
 -- could use load file instead of require, 
 -- in that case, I wouln't need to init global variables in another file
+require 'lua/Class'
 require 'lua/setupView'
 
 mainDecks = {}
 require 'lua/setupDecks'
 require 'lua/setupInput'
-require 'lua/character'
-
---print ( 'char type:' .. type ( character ) ) -- DEBUG
+require 'lua/Character'
 
 -- Create the tile grid
 grid = MOAIGrid.new ()
