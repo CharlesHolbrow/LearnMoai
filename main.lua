@@ -25,9 +25,7 @@ World Building
 X_SIZE = 900
 Y_SIZE = 760
 
-
-
-print ( 'LUA_PATH: ' .. package.path )
+--print ( 'LUA_PATH: ' .. package.path )
 
 
 -- could use load file instead of require, 
@@ -40,6 +38,7 @@ require 'lua/setupDecks'
 require 'lua/setupInput'
 require 'lua/Character'
 
+-- TODO: Hex Grid Class
 -- Create the tile grid
 grid = MOAIGrid.new ()
 grid:initHexGrid ( 4, 12, 64 )
@@ -83,7 +82,6 @@ textbox:setRect ( -50, -50, 50, 50 )
 textbox:setYFlip ( true )
 
 
--- TODO: move more of the movement stuff into setupInput
 mainRoutine = MOAICoroutine.new ()
 mainRoutine:run ( function () 
    local run = true

@@ -47,11 +47,6 @@ local A_KEY = 97
 local D_KEY = 100
 local S_KEY = 115
 
--- create tables containing all relevant input 
--- calculate actions
---  need some kind of mapping input to actions. 
-
-
 local dx, dy = 0, 0
 local function incLeft () dx = dx - 1 end
 local function incRight () dx = dx + 1 end
