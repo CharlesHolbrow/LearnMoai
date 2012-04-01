@@ -65,7 +65,7 @@ function ()
    while run do
 
       local dt = coroutine.yield ()
-      frameInputRoutine ( dt )
+      callInputMethods ( dt )
 
    end
 end )

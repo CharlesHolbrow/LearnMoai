@@ -24,3 +24,7 @@ end
 MOAISim.openWindow("Fast Game", X_SIZE, Y_SIZE)
 mainViewport = createViewport ( X_SIZE , Y_SIZE, X_SIZE, Y_SIZE)
 mainLayer = addNewLayerToViewport ( mainViewport )
+
+mainCamera = MOAICamera2D.new () 
+mainLayer:setCamera ( mainCamera )
+
