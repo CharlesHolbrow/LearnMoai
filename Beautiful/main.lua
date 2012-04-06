@@ -12,8 +12,26 @@ MOAISim.pushRenderPass ( layer )
 
 require ( 'lua/Rig' )
 
+-- Convert a Tiled Map Editor "layer" with type = "tileLayer" to a MOAIGrid
+-- tl is a Tiled Map Editor layer Lua table
+local function tilelayerToGrid ( ls )
+	print ( 'Tilelayer name: ', ls )
+	local grid = MOAIGrid.new ()
+	grid:initRectGrid ( ls.width, ls.height, 32, 32 ) -- TODO: fix static 32
+	grid:setRepeat ( false )
+	-- Convert tilelayer data to MOAIGrid coordinates
+	local i = 1
+	for y = ls.height, 1, -1 do
+		for x =  1, ls.width do
+			grid:setTile ( x, y, ls.data[i] )
+			print ( 'setTile: ', x, y, ls.data[i] )
+			i = i + 1
+		end
+	end
+	return grid
+end
 
--- Convert a tileset output by the tiled editor to a MOAIGrid
+-- Convert a tileset output by the tiled editor to a MOAITileDeck2D
 -- ts is a Tiled Map editor tileset lua table
 local function tilesetToDeck ( ts )
 	if ts.margin ~= ts.spacing then 
@@ -48,14 +66,15 @@ function initMap ( luaMapPath )
 
 
 	local map = CCRig.new ()
-	map.grid = MOAIGrid.new ()
-	map.grid:initRectGrid ( 4, 4, 32, 32 )
-	map.grid:setRepeat ( false )
+	--map.grid = MOAIGrid.new ()
+	map.grid = tilelayerToGrid ( luaMap.layers[1] )
+	--map.grid:initRectGrid ( 4, 4, 32, 32 )
+	--map.grid:setRepeat ( false )
 
-	map.grid:setRow ( 1, 1, 2, 3, 4 )
-	map.grid:setRow ( 2, 1, 2, 3, 4 )
-	map.grid:setRow ( 3, 1, 2, 3, 4 )
-	map.grid:setRow ( 4, 1, 2, 3, 4 )
+	--map.grid:setRow ( 1, 1, 2, 3, 4 )
+	--map.grid:setRow ( 2, 1, 2, 3, 4 )
+	--map.grid:setRow ( 3, 1, 2, 3, 4 )
+	--map.grid:setRow ( 4, 1, 2, 3, 4 )
 
 	--map.deck = MOAITileDeck2D.new ()
 	--map.deck:setTexture ( 'map/desert.png' )
