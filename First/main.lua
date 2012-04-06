@@ -22,6 +22,7 @@ World Building
 --==============================================================
 -- init some global settings
 --==============================================================
+print ('MOAISim.extend type: ', type ( MOAISim.extend ) )
 X_SIZE = 900
 Y_SIZE = 760
 

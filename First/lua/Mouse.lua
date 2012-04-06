@@ -37,3 +37,8 @@ function Mouse.dragMap ()
 	end
 end
 
+
+-- A better way to do it:
+-- When the mouse is clicked, find what was clicked on - clickTarget
+-- on mouse drags, send drag command to each target. 
+-- on mouse-up, send mouse up, on click, send mouse 
