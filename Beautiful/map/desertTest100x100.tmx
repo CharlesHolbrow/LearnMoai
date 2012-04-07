@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="desert" tilewidth="32" tileheight="32" spacing="1" margin="1">
+  <image source="desert.png" width="265" height="199"/>
+  <tile id="24">
+   <properties>
+    <property name="obstruct" value="true"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="obstruct" value="true"/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="obstruct" value="true"/>
+   </properties>
+  </tile>
+  <tile id="30">
+   <properties>
+    <property name="action" value="damage"/>
+    <property name="obstruct" value="true"/>
+   </properties>
+  </tile>
+  <tile id="32">
+   <properties>
+    <property name="obstruct" value="true"/>
+   </properties>
+  </tile>
+  <tile id="34">
+   <properties>
+    <property name="obstruct" value="true"/>
+   </properties>
+  </tile>
+  <tile id="40">
+   <properties>
+    <property name="obstruct" value="true"/>
+   </properties>
+  </tile>
+  <tile id="41">
+   <properties>
+    <property name="obstruct" value="true"/>
+   </properties>
+  </tile>
+  <tile id="42">
+   <properties>
+    <property name="obstruct" value="true"/>
+   </properties>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="action" value="read"/>
+    <property name="obstruct" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Ground" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt2m1rwjAUBeDg3IoZ+6IwsPNtKqxz6Pb/f91y2Q0LWdOGNdhz5X54SLWFnmNqW6obY8xGQXoHyFBCzePceXC+WrbZ8Xh2PhPbjO3AHeL3187UeW5Zh9jDO/K4inodo+22AFlTPpzHxLpXZ8LLdwBZu1TOJXhtze934uQ0Ajp4k2DZZ94D5Mp16OizBMiXa8XjzPwcQ74LnYOrYLs3gKw5/PWQrhF0PNlg3T1AvlwLHqnDC0CeoaYAGUp4AsgwhD9PVSPtv4Q6WEa+7+hzBshQwg4gg1JKKaWuY2sw778a1pW7bVkS1M8+Z2765uRW9B2HiBrz99hqImNnHPrZS+rx347I2p7FS+thb6DHknv4zGF2ST3o2TU9J42fyUv7fsx4PuIeEufDjrj/0j1Svx1KoT2waI/ronNnnUC/h6yF9CD7BBtA7eH/u0DzcUqYBxaF91/KNyBbIoY=
+  </data>
+ </layer>
+</map>
