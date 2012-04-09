@@ -11,13 +11,13 @@ MOAISim.pushRenderPass ( layer )
 camera = MOAICamera2D.new ()
 layer:setCamera ( camera )
 
+package.path = ( 'lua/?.lua;' .. package.path )
+require ( 'CCRig' )
+require ( 'CCMap' )
+require ( 'CCMouse' )
 
-require ( 'lua/CCRig' )
-require ( 'lua/CCTiled' )
-require ( 'lua/CCMouse' )
 
-
-map = initMap ( 'map/desertTest100x100.lua' )
+map = initTiledEditorMap ( 'map/desertTest100x100.lua' )
 map.prop:forceUpdate ()
 layer:insertProp ( map.prop )
 

@@ -1,4 +1,4 @@
-require ( 'lua/CCRig' )
+require ( 'CCRig' )
 
 CCMouse = CCRig.new ()
 CCMouse.pressTime = 0

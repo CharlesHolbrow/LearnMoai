@@ -1,32 +1,37 @@
-require ( 'lua/CCRig' )
+module(..., package.seeall)
 
+----------------------------------------------------------------
 -- Convert a Tiled Map Editor "layer" with type = "tilelayer" to a MOAIGrid
--- tl is a Tiled Map Editor layer Lua table
-local function tilelayerToGrid ( ls )
-	print ( 'Tilelayer name: ', ls )
+-- Input: 
+-- 	* tl - a Tiled Map Editor layer Lua table
+----------------------------------------------------------------
+function initGrid ( tl )
+	print ( 'Tilelayer name: ', tl.name )
 	local grid = MOAIGrid.new ()
-	grid:initRectGrid ( ls.width, ls.height, 32, 32 ) -- TODO: fix static 32
+	grid:initRectGrid ( tl.width, tl.height, 32, 32 ) -- TODO: fix static 32
 	grid:setRepeat ( false )
 	-- Convert tilelayer data to MOAIGrid coordinates
 	local i = 1
-	for y = ls.height, 1, -1 do
-		for x =  1, ls.width do
-			grid:setTile ( x, y, ls.data[i] )
-			--print ( 'setTile: ', x, y, ls.data[i] )
+	for y = tl.height, 1, -1 do
+		for x =  1, tl.width do
+			grid:setTile ( x, y, tl.data[i] )
+			--print ( 'setTile: ', x, y, tl.data[i] )
 			i = i + 1
 		end
 	end
 	return grid
 end
 
+----------------------------------------------------------------
 -- Convert a tileset output by the tiled editor to a MOAITileDeck2D
--- ts is a Tiled Map editor tileset lua table
-local function tilesetToDeck ( ts )
+-- Input: 
+-- 	* ts - a Tiled Map editor tileset lua table
+----------------------------------------------------------------
+function initTileDeck ( ts )
 	if ts.margin ~= ts.spacing then 
 		print ( 'Error: tileset margin and spacing do not match')
 		return
 	end
-	print ('Tileset name:', ts.name )
 	-- tileset dimentions 
 	local xTileCount = ( ts.imagewidth - ts.spacing ) / ( ts.tilewidth + ts.spacing )
 	local yTileCount = ( ts.imageheight - ts.spacing ) / ( ts.tileheight + ts.spacing )
@@ -46,20 +51,22 @@ local function tilesetToDeck ( ts )
 	return tileDeck
 end
 
-
-function initMap ( luaMapPath )
-	print ( 'init map!' )
-	luaMap = dofile ( luaMapPath )
-	-- Get Params from Lua 
-
-
-	local map = CCRig.new ()
-	map.grid = tilelayerToGrid ( luaMap.layers[1] )
-	map.deck = tilesetToDeck ( luaMap.tilesets[1] )
-
-	map.prop = MOAIProp2D.new ()
-	map.prop:setDeck ( map.deck )
-	map.prop:setGrid ( map.grid )
-	map.prop:setLoc ( 0, 0 )
-	return map
+----------------------------------------------------------------
+-- Create a Tileset Rig that stores 
+-- 	* a MOAITileDeck2D
+--  * properties of the tiles
+-- Input:
+-- 	* ts - a Tiled Map editor tileset lua table
+----------------------------------------------------------------
+function initTileset ( ts )
+	local tileset = CCRig.new ()
+	tileset.deck = initTileDeck ( ts )
+	tileset.properties = {}
+	for k, v in pairs ( ts.tiles ) do
+		tileset.properties[v.id] = v.properties
+	end
+	return tileset
 end
+
+
+

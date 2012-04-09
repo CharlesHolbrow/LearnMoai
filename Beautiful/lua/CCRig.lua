@@ -14,8 +14,10 @@ function CCRig:debug ()
 	for k, v in pairs ( self ) do
 		print ( k, v )
 	end
-	print 'Metatable contants: '
+	print 'Metatable contents: '
 	for k, v in pairs ( getmetatable ( self ) ) do
 		print ( k, v )
 	end
 end
+
+return CCRig 
