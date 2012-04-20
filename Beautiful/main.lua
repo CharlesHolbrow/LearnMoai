@@ -34,7 +34,7 @@ player.prop:setDeck ( player.deck )
 -- everything below here just for debugging
 --map:debug () 
 function pploc ( down ) 
-	print ( MOAIInputMgr.device.pointer:getLoc () )
+	print ( 'Window position: ', MOAIInputMgr.device.pointer:getLoc () )
 	print ( 'Actions' )
 	for k, v in pairs( CCMouse.press.actions ) do
 		print ( k, v ) 
@@ -43,5 +43,10 @@ end
 table.insert ( CCMouse.press.actions, pploc )
 table.insert ( CCMouse.press.actions, function () collectgarbage() end )
 
-pploc = nil	
+-- pploc = nil	
+function pgc ()
+	x, y = MOAIInputMgr.device.pointer:getLoc ()
+	print ( 'Grid Coords:', map:wndToCoord ( x, y ) )
+end
+table.insert ( CCMouse.press.actions, pgc )
 
