@@ -16,13 +16,15 @@ function initTiledEditorMap ( luaMapPath )
 	map.transform = MOAITransform2D.new ()
 
 	-- Convert first layer to a grid. assume it's a tilelayer
-	map.grid = CCTiled.initGrid ( luaMap.layers[1] )
+	map.grid = CCTiled.initGrid ( luaMap.layers[1], luaMap.tilewidth, luaMap.tileheight )
 	-- create tileset for first 
 	map.tileset = CCTiled.initTileset ( luaMap.tilesets[1] ) 
 
 	map.prop = MOAIProp2D.new ()
 	map.prop:setDeck ( map.tileset.deck )
 	map.prop:setGrid ( map.grid )
-	map.prop:setLoc ( 0, 0 )
+
+	map.prop:setParent ( map.transform )
+
 	return map
 end

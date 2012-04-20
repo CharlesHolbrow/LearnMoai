@@ -4,11 +4,13 @@ module(..., package.seeall)
 -- Convert a Tiled Map Editor "layer" with type = "tilelayer" to a MOAIGrid
 -- Input: 
 -- 	* tl - a Tiled Map Editor layer Lua table
+--	* tileWidth - width of a tile in world space
+--	* tileHeight - height of a tile in world space
 ----------------------------------------------------------------
-function initGrid ( tl )
+function initGrid ( tl, tileWidth, tileHeight )
 	print ( 'Tilelayer name: ', tl.name )
 	local grid = MOAIGrid.new ()
-	grid:initRectGrid ( tl.width, tl.height, 32, 32 ) -- TODO: fix static 32
+	grid:initRectGrid ( tl.width, tl.height, tileWidth, tileHeight ) 
 	grid:setRepeat ( false )
 	-- Convert tilelayer data to MOAIGrid coordinates
 	local i = 1

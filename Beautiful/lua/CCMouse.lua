@@ -11,6 +11,9 @@ CCMouse.y = 0
 CCMouse.drag = {}
 CCMouse.drag.callback = function ( dx, dy ) print ( 'Drag:', dx, dy ) end 
 
+CCMouse.press = {}
+CCMouse.press.actions = {}
+setmetatable ( CCMouse.press.actions, { __mode = 'kv' } )
 
 ----------------------------------------------------------------
 -- Register MOAI callbacks
@@ -23,6 +26,9 @@ end
 local function onMouseLeft ( down )
 	if down then 
 		CCMouse.pressTime = MOAISim.getElapsedTime ()
+	end
+	for k, func in pairs ( CCMouse.press.actions ) do 
+		func ( down ) 
 	end
 end
 MOAIInputMgr.device.mouseLeft:setCallback ( onMouseLeft )
