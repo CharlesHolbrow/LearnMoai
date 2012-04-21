@@ -10,6 +10,7 @@ require ( 'CCResourceCache' )
 require ( 'CCMap' )
 require ( 'CCMouse' )
 require ( 'CCScene' )
+require ( 'CCLocation' )
 
 scene = initScene ( viewport )
 deckCache = initResourceCache ()
@@ -44,9 +45,14 @@ table.insert ( CCMouse.press.actions, pploc )
 table.insert ( CCMouse.press.actions, function () collectgarbage() end )
 
 -- pploc = nil	
+
+map.layer = scene.layers[1] --- CAUTION!!! THIS IS A HUGE HACK!!! TODO: Add this in the proper place
+
 function pgc ()
-	x, y = MOAIInputMgr.device.pointer:getLoc ()
-	print ( 'Grid Coords:', map:wndToCoord ( x, y ) )
+	local x, y = MOAIInputMgr.device.pointer:getLoc ()
+	x, y = CCLocation.wndToObject ( map, x, y )
+	print ( 'Grid Coords:', map.grid:locToCoord ( x, y )  )
 end
 table.insert ( CCMouse.press.actions, pgc )
 
+map.transform:moveLoc (-150, -150, 1)
