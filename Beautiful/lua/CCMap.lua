@@ -30,6 +30,8 @@ function initTiledEditorMap ( luaMapPath )
 	return map
 end
 
+
+-- TODO: major update. revame this using the CCLocations module
 function Map:wndToCoord ( x, y )
 	x, y = scene.layers[1]:wndToWorld ( x, y ) -- TODO: avoide dependence on golbal 'scene' variable
 	selfX, selfY =  self.prop:getWorldLoc()
