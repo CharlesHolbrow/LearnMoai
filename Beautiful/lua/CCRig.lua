@@ -15,8 +15,15 @@ function CCRig:debug ()
 		print ( k, v )
 	end
 	print 'Metatable contents: '
-	for k, v in pairs ( getmetatable ( self ) ) do
+	local mt = getmetatable ( self )
+	for k, v in pairs ( mt ) do
 		print ( k, v )
+	end
+	if mt.__index then
+		print 'Metatable.__index contents:'
+		for k, v in pairs ( mt.__index ) do
+			print ( k, v )
+		end
 	end
 end
 

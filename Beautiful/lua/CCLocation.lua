@@ -1,9 +1,16 @@
+--[[
+For rig position related functions
+Introduces concept of "Object" coordinates:
+	The location of a point relative to an object. 
+]]
+
 module(..., package.seeall)
 
 ----------------------------------------------------------------
 -- Get the location of a rig in world coordinates
--- Required components:
--- 	transform OR prop
+-- Input:
+-- 	* rig: 
+-- 		- has a transform OR prop
 ----------------------------------------------------------------
 function getLoc ( rig )
 	local locatable = rig.transform or rig.prop
@@ -20,7 +27,6 @@ function worldToObject ( rig, x, y )
 	local originX, originY = getLoc ( rig )
 	x = x - originX
 	y = y - originY
-	print ( 'object coords', x, y )
 	return x, y
 end
 

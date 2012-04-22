@@ -1,5 +1,6 @@
 require ( 'CCRig' )
 require ( 'CCTiled')
+require ( 'CCStock' )
 ----------------------------------------------------------------
 -- A Map stores:
 --	* A Tileset
@@ -10,7 +11,6 @@ require ( 'CCTiled')
 local Map = CCRig.new ()
 
 function initTiledEditorMap ( luaMapPath )
-	print ( 'init map!' )
 	luaMap = dofile ( luaMapPath )
 
 	local map = CCRig.new ( Map )
@@ -27,18 +27,18 @@ function initTiledEditorMap ( luaMapPath )
 
 	map.prop:setParent ( map.transform )
 
+	-- The scene manager will call rig:setLayer() if possible
+	map.setLayer = CCStock.setLayer
+
+	-- Register the map to be processed by the scene manager
+	table.insert ( scene.newRigs, map )
+
 	return map
 end
 
-
--- TODO: major update. revame this using the CCLocations module
 function Map:wndToCoord ( x, y )
-	x, y = scene.layers[1]:wndToWorld ( x, y ) -- TODO: avoide dependence on golbal 'scene' variable
-	selfX, selfY =  self.prop:getWorldLoc()
-	x = x - selfX
-	y = y - selfY
-	x, y = self.grid:locToCoord ( x, y )
-	return x, y
+	x, y = CCLocation.wndToObject ( self, x, y )
+	return self.grid:locToCoord ( x, y )
 end
 
 
