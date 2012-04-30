@@ -1,4 +1,5 @@
 require ( 'CCRig' )
+require ( 'Rig' )
 require ( 'CCTiled')
 require ( 'CCStock' )
 ----------------------------------------------------------------
@@ -8,32 +9,32 @@ require ( 'CCStock' )
 --	* A sparse matrix of CCTile objects 
 ----------------------------------------------------------------
 
-local Map = CCRig.new ()
+local Map = {}
 
-function initTiledEditorMap ( luaMapPath )
-	luaMap = dofile ( luaMapPath )
+function Map:setTiledLuaFile ( luaMapPath )
 
-	local map = CCRig.new ( Map )
-	map.transform = MOAITransform2D.new ()
+	self.luaMap = dofile ( luaMapPath )
 
 	-- Convert first layer to a grid. assume it's a tilelayer
-	map.grid = CCTiled.initGrid ( luaMap.layers[1], luaMap.tilewidth, luaMap.tileheight )
+	self.grid = CCTiled.initGrid ( self.luaMap.layers[1], 
+								   self.luaMap.tilewidth, 
+								   self.luaMap.tileheight )
 	-- create tileset for first 
-	map.tileset = CCTiled.initTileset ( luaMap.tilesets[1] ) 
+	self.tileset = CCTiled.initTileset ( self.luaMap.tilesets[1] ) 
 
-	map.prop = MOAIProp2D.new ()
-	map.prop:setDeck ( map.tileset.deck )
-	map.prop:setGrid ( map.grid )
+	self.prop = MOAIProp2D.new ()
+	self.prop:setDeck ( self.tileset.deck )
+	self.prop:setGrid ( self.grid )
 
-	map.prop:setParent ( map.transform )
+	self.prop:setParent ( self.transform )
 
 	-- The scene manager will call rig:setLayer() if possible
-	map.setLayer = CCStock.setLayer
+	self.setLayer = CCStock.setLayer
 
-	-- Register the map to be processed by the scene manager
-	table.insert ( scene.newRigs, map )
+	-- Register the self to be processed by the scene manager
+	table.insert ( scene.newRigs, self )
 
-	return map
+	return self
 end
 
 function Map:wndToCoord ( x, y )
@@ -41,5 +42,9 @@ function Map:wndToCoord ( x, y )
 	return self.grid:locToCoord ( x, y )
 end
 
-
-
+function Rig:initMap ()
+	local map = Rig.init ( self )
+	map.transform = MOAITransform2D.new ()
+	for k, v in pairs ( Map ) do map [ k ] = v end
+	return map
+end

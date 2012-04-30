@@ -6,6 +6,7 @@ viewport:setScale ( 512, 512 )
 
 package.path = ( 'lua/?.lua;' )
 require ( 'CCRig' )
+require ( 'Rig' )
 require ( 'CCResourceCache' )
 require ( 'CCMap' )
 require ( 'CCMouse' )
@@ -19,7 +20,8 @@ scene:debug ()
 deckCache = initResourceCache ()
 
 -- Add a map to the scene
-map = initTiledEditorMap ( 'map/desertTest100x100.lua' )
+map = Rig.initMap ()
+map:setTiledLuaFile ( 'map/desertTest100x100.lua' )
 map.layer = scene.layers.main
 
 -- Set a callback for CCMouse drag
@@ -28,12 +30,14 @@ CCMouse.drag.callback = function ( dx, dy )
 end
 
 -- Add a character
-local player = CCRig.new ()
+local player = Rig.init ()
 player.deck = deckCache:addDeck ( 'img/man_map_3x1.png' )
 player.prop = MOAIProp2D.new () 
 player.prop:setDeck ( player.deck )
 player.setLayer = CCStock.setLayer 
 table.insert ( scene.newRigs, player )
+print ( 'player' ) 
+player:debug ()
 
 -- add any new props to layers if needed
 scene:update ()
