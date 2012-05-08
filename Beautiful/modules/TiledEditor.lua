@@ -1,4 +1,4 @@
-module(..., package.seeall)
+module( 'TiledEditor' , package.seeall)
 
 ----------------------------------------------------------------
 -- Convert a Tiled Map Editor "layer" with type = "tilelayer" to a MOAIGrid
