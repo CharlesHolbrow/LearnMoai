@@ -8,10 +8,10 @@ package.path = ( '?.lua;lua/?.lua;' )
 require ( 'CCRig' )
 require ( 'Rig' )
 require ( 'CCResourceCache' )
+require ( 'modules/location' )
 require ( 'modules/Map' )
 require ( 'CCMouse' )
 require ( 'CCScene' )
-require ( 'CCLocation' )
 require ( 'CCStock' )
 
 scene = initScene ( viewport )
@@ -20,6 +20,7 @@ scene:debug ()
 deckCache = initResourceCache ()
 
 -- Add a map to the scene
+require ( 'modules/location' )
 map = Map.makeMap ( 'map/desertTest100x100.lua' )
 map.layer = scene.layers.main
 

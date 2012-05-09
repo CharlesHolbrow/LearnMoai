@@ -18,12 +18,12 @@ function makeMap ( luaMapPath )
 	map.transform = MOAITransform2D.new ()
 
 	function map:wndToCoord ( x, y )
-		x, y = CCLocation.wndToObject ( self, x, y )
+		x, y = loc.wndToObject ( self, x, y )
 		return self.grid:locToCoord ( x, y )
 	end		
 	function map:coordToWorld ( gridX, gridY )
 		local objectX, objectY = self.grid:getTileLoc ( gridX, gridY )
-		local x, y = CCLocation.getLoc ( self ) 
+		local x, y = loc.getLoc ( self ) 
 		return x + objectX, y + objectY
 	end
 

@@ -4,7 +4,7 @@ Introduces concept of "Object" coordinates:
 	The location of a point relative to an object. 
 ]]
 
-module(..., package.seeall)
+module( 'loc', package.seeall )
 
 ----------------------------------------------------------------
 -- Get the location of a rig in world coordinates
