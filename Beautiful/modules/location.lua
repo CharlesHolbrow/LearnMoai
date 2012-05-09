@@ -49,8 +49,11 @@ end
 
 
 ----------------------------------------------------------------
---  
+--  Find the difference between to locatables
 ----------------------------------------------------------------
+function diff ( startingRig, endingRig )
+	return getLoc ( endingRig ) - getLoc ( startingRig )
+end
 
 ----------------------------------------------------------------
 --  

@@ -38,10 +38,32 @@ player.setLayer = CCStock.setLayer
 table.insert ( scene.newRigs, player )
 
 local function walkToClick ( down ) 
-	if down then return end
+	if not down then return end
 	local x, y = MOAIInputMgr.device.pointer:getLoc ()
 	x, y = map:wndToCoord ( x, y )
-	x, y = map:coordToWorld ( x, y )
+	--x, y = map:coordToWorld ( x, y )
+	-- player grid coordinates
+	local px, py = map:worldToCoord( loc.getLoc ( player ) )
+	print ( 'player', px, py ) 
+
+	local diffX = x - px
+	local diffY = y - py
+
+	print ( 'diffXY', diffX, diffY )
+
+	local moveX, moveY = 0, 0
+
+	
+	if diffX > 0 then moveX = 1 end
+	if diffX < 0 then moveX = -1 end
+	if diffY > 0 then moveY = 1 end
+	if diffY < 0 then moveY = -1 end
+
+	print ( 'moveXY', moveX, moveY )
+
+	px = px + moveX
+	py = py + moveY
+	x, y = map:coordToWorld ( px, py )
 	player.prop:seekLoc ( x, y, 0.1 )
 end
 table.insert ( CCMouse.press.actions, walkToClick )

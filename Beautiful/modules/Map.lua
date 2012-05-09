@@ -26,6 +26,10 @@ function makeMap ( luaMapPath )
 		local x, y = loc.getLoc ( self ) 
 		return x + objectX, y + objectY
 	end
+	function map:worldToCoord ( x, y )
+		x, y = loc.worldToObject ( self, x, y )
+		return self.grid:locToCoord ( x, y )
+	end
 
 	map.luaMap = dofile ( luaMapPath )
 
