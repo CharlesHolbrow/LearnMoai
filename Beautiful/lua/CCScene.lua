@@ -1,9 +1,7 @@
-require ( 'CCRig' )
-
 ----------------------------------------------------------------
 -- Scene methods 
 ----------------------------------------------------------------
-local scene = CCRig.new ()
+scene = Rig.new () -- TODO: make capital 'Scene'
 
 
 --[[------------------------------------------------------------
@@ -30,15 +28,17 @@ end
 -- Scene init
 ----------------------------------------------------------------
 function initScene ( viewport, layerKey )
-	local newScene = CCRig.new ( scene )
+	local newScene = Rig.new ( scene )
 	newScene.viewport = viewport 
 	newScene.camera = MOAICamera2D.new ()
 	
 	-- Setup some list tables to iterate over
-	newScene.newRigs = CCRig.new ()
-	newScene.layers = CCRig.new ()
+	newScene.newRigs = Rig.new ()
+	newScene.layers = Rig.new ()
 
 	newScene:addLayer ( layerKey or 'main' )
 
 	return ( newScene )
 end 
+
+return scene

@@ -61,7 +61,7 @@ end
 -- 	* ts - a Tiled Map editor tileset lua table
 ----------------------------------------------------------------
 function initTileset ( ts )
-	local tileset = CCRig.new ()
+	local tileset = Rig.new ()
 	tileset.deck = initTileDeck ( ts )
 	tileset.properties = {}
 	for k, v in pairs ( ts.tiles ) do

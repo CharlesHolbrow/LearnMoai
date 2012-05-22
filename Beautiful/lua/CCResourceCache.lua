@@ -1,7 +1,7 @@
-local resourceCache = CCRig.new ()
+local resourceCache = Rig.new ()
 
 function initResourceCache ()
-	cache = CCRig.new ( resourceCache )
+	cache = Rig.new ( resourceCache )
 	-- Make resources a weak table for values
 	mt = getmetatable ( cache )
 	mt.__mode = 'v'

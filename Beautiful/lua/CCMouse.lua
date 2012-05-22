@@ -1,6 +1,5 @@
-require ( 'CCRig' )
+CCMouse = Rig.new ()
 
-CCMouse = CCRig.new ()
 CCMouse.pressTime = 0
 CCMouse.x = 0
 CCMouse.y = 0

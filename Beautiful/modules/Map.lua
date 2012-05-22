@@ -14,7 +14,7 @@ local Map = {}
 ----------------------------------------------------------------
 function Map.makeMap ( luaMapPath )
 
-	local map = Rig.init ()
+	local map = Rig.new ()
 	map.transform = MOAITransform2D.new ()
 
 	function map:wndToCoord ( x, y )

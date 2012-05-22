@@ -5,8 +5,7 @@ viewport:setSize ( 512, 512 )
 viewport:setScale ( 512, 512 )
 
 package.path = ( '?.lua;lua/?.lua;' )
-require ( 'CCRig' )
-require ( 'Rig' )
+Rig = require ( 'Rig' )
 require ( 'CCResourceCache' )
 Loc = require ( 'modules.Loc' )
 Map = require ( 'modules.Map' )
@@ -29,7 +28,7 @@ CCMouse.drag.callback = function ( dx, dy )
 end
 
 -- Add a character
-local player = Rig.init ()
+local player = Rig.new ()
 player.deck = deckCache:addDeck ( 'img/man_map_3x1.png' )
 player.prop = MOAIProp2D.new () 
 player.prop:setDeck ( player.deck )
