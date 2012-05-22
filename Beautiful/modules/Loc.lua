@@ -4,7 +4,7 @@ Introduces concept of "Object" coordinates:
 	The location of a point relative to an object. 
 ]]
 
-module( 'loc', package.seeall )
+Loc = {}
 
 ----------------------------------------------------------------
 -- Get the location of a rig in world coordinates
@@ -12,7 +12,7 @@ module( 'loc', package.seeall )
 -- 	* rig: 
 -- 		- has a transform OR prop
 ----------------------------------------------------------------
-function getLoc ( rig )
+function Loc.getLoc ( rig )
 	local locatable = rig.transform or rig.prop
 	return locatable:getLoc ()
 end
@@ -23,8 +23,8 @@ end
 -- 	* rig is a legal target for getLoc
 --	* x, y are a point in world coordinates
 ----------------------------------------------------------------
-function worldToObject ( rig, x, y )
-	local originX, originY = getLoc ( rig )
+function Loc.worldToObject ( rig, x, y )
+	local originX, originY = Loc.getLoc ( rig )
 	x = x - originX
 	y = y - originY
 	return x, y
@@ -42,19 +42,23 @@ end
 -- 	* x, y 
 -- 		- a point in window coordinates
 ----------------------------------------------------------------
-function wndToObject ( rig, x, y )
+function Loc.wndToObject ( rig, x, y )
 	local targetX, targetY = rig.layer:wndToWorld ( x, y )
-	return worldToObject ( rig, targetX, targetY )
+	return Loc.worldToObject ( rig, targetX, targetY )
 end
 
 
 ----------------------------------------------------------------
 --  Find the difference between to locatables
 ----------------------------------------------------------------
-function diff ( startingRig, endingRig )
-	return getLoc ( endingRig ) - getLoc ( startingRig )
+function Loc.diff ( startingRig, endingRig )
+	return Loc.getLoc ( endingRig ) - getLoc ( startingRig )
 end
+
+
 
 ----------------------------------------------------------------
 --  
 ----------------------------------------------------------------
+
+return Loc

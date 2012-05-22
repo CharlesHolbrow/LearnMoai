@@ -8,8 +8,8 @@ package.path = ( '?.lua;lua/?.lua;' )
 require ( 'CCRig' )
 require ( 'Rig' )
 require ( 'CCResourceCache' )
-require ( 'modules/location' )
-require ( 'modules/Map' )
+Loc = require ( 'modules.Loc' )
+Map = require ( 'modules.Map' )
 require ( 'CCMouse' )
 require ( 'CCScene' )
 require ( 'CCStock' )
@@ -20,7 +20,6 @@ scene:debug ()
 deckCache = initResourceCache ()
 
 -- Add a map to the scene
-require ( 'modules/location' )
 map = Map.makeMap ( 'map/desertTest100x100.lua' )
 map.layer = scene.layers.main
 
@@ -35,36 +34,20 @@ player.deck = deckCache:addDeck ( 'img/man_map_3x1.png' )
 player.prop = MOAIProp2D.new () 
 player.prop:setDeck ( player.deck )
 player.setLayer = CCStock.setLayer 
+player.map = map
 table.insert ( scene.newRigs, player )
+print ( 'player 1' )
 
 local function walkToClick ( down ) 
 	if not down then return end
 	local x, y = MOAIInputMgr.device.pointer:getLoc ()
 	x, y = map:wndToCoord ( x, y )
-	--x, y = map:coordToWorld ( x, y )
-	-- player grid coordinates
-	local px, py = map:worldToCoord( loc.getLoc ( player ) )
-	print ( 'player', px, py ) 
 
-	local diffX = x - px
-	local diffY = y - py
+	print ( 'player', player.prop )
+	player:debug ()
 
-	print ( 'diffXY', diffX, diffY )
-
-	local moveX, moveY = 0, 0
-
+	Map.moveTowardCoord ( player, x, y )
 	
-	if diffX > 0 then moveX = 1 end
-	if diffX < 0 then moveX = -1 end
-	if diffY > 0 then moveY = 1 end
-	if diffY < 0 then moveY = -1 end
-
-	print ( 'moveXY', moveX, moveY )
-
-	px = px + moveX
-	py = py + moveY
-	x, y = map:coordToWorld ( px, py )
-	player.prop:seekLoc ( x, y, 0.1 )
 end
 table.insert ( CCMouse.press.actions, walkToClick )
 
