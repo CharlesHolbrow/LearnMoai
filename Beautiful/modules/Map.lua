@@ -12,7 +12,7 @@ local Map = {}
 ----------------------------------------------------------------
 -- functions
 ----------------------------------------------------------------
-function Map.makeMap ( luaMapPath )
+function Map.new ( luaMapPath )
 
 	local map = Rig.new ()
 	map.transform = MOAITransform2D.new ()

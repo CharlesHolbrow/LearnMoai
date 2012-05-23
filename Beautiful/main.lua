@@ -19,7 +19,7 @@ scene:debug ()
 deckCache = initResourceCache ()
 
 -- Add a map to the scene
-map = Map.makeMap ( 'map/desertTest100x100.lua' )
+map = Map.new ( 'map/desertTest100x100.lua' )
 map.layer = scene.layers.main
 
 -- Set a callback for CCMouse drag
