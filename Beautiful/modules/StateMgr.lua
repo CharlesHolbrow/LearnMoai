@@ -179,8 +179,8 @@ end
 ----------------------------------------------------------------
 function StateMgr.swap ( stateFile, ... )
 	
-	pop ()
-	push ( stateFile, ... )
+	StateMgr.pop ()
+	StateMgr.push ( stateFile, ... )
 end
 
 ----------------------------------------------------------------
