@@ -6,17 +6,12 @@ viewport:setScale ( 512, 512 )
 
 package.path = ( '?.lua;lua/?.lua;' )
 
-Rig = require ( 'Rig' )
+Rig = require ( 'modules.Rig' )
 require ( 'CCResourceCache' )
 Loc = require ( 'modules.Loc' )
 Map = require ( 'modules.Map' )
 Mouse = require ( 'modules.Mouse' )
 StateMgr = require ( 'modules.StateMgr' )
-
---require ( 'CCScene' )
-
---scene = initScene ( viewport )
---scene:debug ()
 
 deckCache = initResourceCache ()
 
