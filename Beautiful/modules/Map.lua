@@ -46,9 +46,6 @@ function Map.new ( luaMapPath )
 
 	map.prop:setParent ( map.transform )
 
-	-- The scene manager will call rig:setLayer() if possible
-	map.setLayer = CCStock.setLayer
-
 	-- Register the map to be processed by the scene manager
 	table.insert ( scene.newRigs, map )
 
@@ -69,12 +66,12 @@ Input:
 function Map.moveTowardCoord ( rig, x, y )
 	local coordX, coordY = rig.map:worldToCoord ( Loc.getLoc ( rig ) )
 
-	print ( 'Rig Coord', coordX, coordY ) 
+	--print ( 'Rig Coord', coordX, coordY ) 
 
 	local diffX = x - coordX
 	local diffY = y - coordY
 
-	print ( 'diffXY', diffX, diffY )
+	--print ( 'diffXY', diffX, diffY )
 
 	local moveX, moveY = 0, 0
 	
@@ -83,7 +80,7 @@ function Map.moveTowardCoord ( rig, x, y )
 	if diffY > 0 then moveY = 1 end
 	if diffY < 0 then moveY = -1 end
 
-	print ( 'moveXY', moveX, moveY )
+	--print ( 'moveXY', moveX, moveY )
 
 	coordX = coordX + moveX
 	coordY = coordY + moveY
