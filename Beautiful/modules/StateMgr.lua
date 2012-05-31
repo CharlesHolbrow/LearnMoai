@@ -95,10 +95,10 @@ end
 function StateMgr.begin ()
 	
 	updateThread:run ( updateFunction )
-function
+end
 
 ----------------------------------------------------------------
-end StateMgr.getCurState ( )
+function StateMgr.getCurState ( )
 
 	return curState
 end

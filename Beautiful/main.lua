@@ -13,10 +13,10 @@ Map = require ( 'modules.Map' )
 Mouse = require ( 'modules.Mouse' )
 StateMgr = require ( 'modules.StateMgr' )
 
-require ( 'CCScene' )
+--require ( 'CCScene' )
 
-scene = initScene ( viewport )
-scene:debug ()
+--scene = initScene ( viewport )
+--scene:debug ()
 
 deckCache = initResourceCache ()
 

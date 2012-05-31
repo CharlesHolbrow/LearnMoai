@@ -46,9 +46,6 @@ function Map.new ( luaMapPath )
 
 	map.prop:setParent ( map.transform )
 
-	-- Register the map to be processed by the scene manager
-	table.insert ( scene.newRigs, map )
-
 	return map
 end
 
