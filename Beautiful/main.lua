@@ -9,7 +9,7 @@ Rig = require ( 'Rig' )
 require ( 'CCResourceCache' )
 Loc = require ( 'modules.Loc' )
 Map = require ( 'modules.Map' )
-require ( 'CCMouse' )
+Mouse = require ( 'Mouse' )
 require ( 'CCScene' )
 require ( 'CCStock' )
 
@@ -22,8 +22,8 @@ deckCache = initResourceCache ()
 map = Map.new ( 'map/desertTest100x100.lua' )
 map.layer = scene.layers.main
 
--- Set a callback for CCMouse drag
-CCMouse.drag.callback = function ( dx, dy )
+-- Set a callback for Mouse drag
+Mouse.drag.callback = function ( dx, dy )
 	scene.camera:moveLoc ( dx * -2 , dy * 2 )
 end
 
@@ -48,7 +48,7 @@ local function walkToClick ( down )
 	Map.moveTowardCoord ( player, x, y )
 	
 end
-table.insert ( CCMouse.press.actions, walkToClick )
+table.insert ( Mouse.press.actions, walkToClick )
 
 -- add any new props to layers if needed
 scene:update ()
@@ -59,10 +59,10 @@ scene:update ()
 -- 	if not down then return end
 -- 	print ( 'Window position: ', MOAIInputMgr.device.pointer:getLoc () )
 -- 	print ( 'Mouse Actions' )
--- 	for k, v in pairs( CCMouse.press.actions ) do
+-- 	for k, v in pairs( Mouse.press.actions ) do
 -- 		print ( k, v ) 
 -- 	end
 -- end
--- table.insert ( CCMouse.press.actions, pploc )
+-- table.insert ( Mouse.press.actions, pploc )
 
 map.transform:moveLoc (-150, -150, 1)
