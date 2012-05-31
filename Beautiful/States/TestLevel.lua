@@ -13,9 +13,9 @@ state.onLoad = function ( self )
 
 
 	-- Add a map to the scene
-	map = Map.new ( 'map/desertTest100x100.lua' ) -- TODO: make map local
-	map.layer = layer
-	layer:insertProp ( map.prop )
+	self.map = Map.new ( 'map/desertTest100x100.lua' ) -- TODO: make map local
+	self.map.layer = layer
+	layer:insertProp ( self.map.prop )
 	
 	-- Set a callback for Mouse drag
 	self.drag = function ( dx, dy )
@@ -28,20 +28,20 @@ state.onLoad = function ( self )
 	player.deck = deckCache:addDeck ( 'img/man_map_3x1.png' )
 	player.prop = MOAIProp2D.new () 
 	player.prop:setDeck ( player.deck )
-	player.map = map
+	player.map = self.map
 
 	-- add newly created player to layer
 	layer:insertProp ( player.prop )
 
 	-- DEBUG:
-	map.transform:moveLoc (-150, -150, 1)
+	self.map.transform:moveLoc (-150, -150, 1)
 
 	-- Another Debug Mouse test. TODO: move this somewhere proper
 	function state.walkToClick ( down ) 
 
-		if not down then return end
+		if down then return end
 		local x, y = MOAIInputMgr.device.pointer:getLoc ()
-		x, y = map:wndToCoord ( x, y )
+		x, y = self.map:wndToCoord ( x, y )
 		Map.moveTowardCoord ( player, x, y ) 
 		
 	end

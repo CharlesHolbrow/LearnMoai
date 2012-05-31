@@ -81,7 +81,7 @@ function Map.moveTowardCoord ( rig, x, y )
 
 	coordX = coordX + moveX
 	coordY = coordY + moveY
-	x, y = map:coordToWorld ( coordX, coordY )
+	x, y = rig.map:coordToWorld ( coordX, coordY )
 	rig.prop:seekLoc ( x, y, 0.1 )
 end
 
