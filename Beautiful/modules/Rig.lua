@@ -10,6 +10,7 @@ function Rig.new ( initial )
 end 
 
 function Rig:debug ()
+	print ( '----------------' )
 	print 'Rig contents: '
 	for k, v in pairs ( self ) do
 		print ( k, v )
@@ -25,6 +26,7 @@ function Rig:debug ()
 			print ( k, v )
 		end
 	end
+	print ( '----------------' )
 end
 
 return Rig 

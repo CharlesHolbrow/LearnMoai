@@ -1,5 +1,7 @@
 local state = {}
 state.layerTable = nil
+--
+state.tapActions = nil
 
 state.onLoad = function ( self ) 
 	
@@ -13,43 +15,40 @@ state.onLoad = function ( self )
 
 
 	-- Add a map to the scene
-	self.map = Map.new ( 'map/desertTest100x100.lua' ) -- TODO: make map local
+	self.map = Map.new ( 'map/desertTest100x100.lua' ) 
 	self.map.layer = layer
+	-- A partition is automaticly created when inserting a prop
 	layer:insertProp ( self.map.prop )
+	self.map.partition = layer:getPartition ()
 	
 	-- Set a callback for Mouse drag
 	self.drag = function ( dx, dy )
 		self.camera:moveLoc ( dx * -2 , dy * 2 )
 	end
-	Mouse.drag.callback = self.drag
+	Pointer.drag.callback = self.drag
 
 	-- Add a character
-	local player = Rig.new ()
-	player.deck = deckCache:addDeck ( 'img/man_map_3x1.png' )
-	player.prop = MOAIProp2D.new () 
-	player.prop:setDeck ( player.deck )
-	player.map = self.map
+	self.player = Rig.new ()
+
+	self.player.deck = deckCache:addDeck ( 'img/man_map_3x1.png' )
+	self.player.prop = MOAIProp2D.new () 
+	self.player.prop:setDeck ( self.player.deck )
+	self.player.map = self.map
 
 	-- add newly created player to layer
-	layer:insertProp ( player.prop )
+	layer:insertProp ( self.player.prop )
 
 	-- DEBUG:
 	self.map.transform:moveLoc (-150, -150, 1)
 
-	-- Another Debug Mouse test. TODO: move this somewhere proper
-	function state.walkToClick ( down ) 
-
-		if down then return end
-		local x, y = MOAIInputMgr.device.pointer:getLoc ()
-		x, y = self.map:wndToCoord ( x, y )
-		Map.moveTowardCoord ( player, x, y ) 
-		
-	end
-	table.insert ( Mouse.press.actions, state.walkToClick )
-
 end 
 
 state.onInput = function ( self )
+
+	if Pointer.up () then
+		local x, y = self.map:wndToCoord ( Pointer.x, Pointer.y )
+		Map.moveTowardCoord ( self.player, x, y ) 
+	end
 end
 
 state.onUnload = function ( self )

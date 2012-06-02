@@ -165,7 +165,7 @@ function StateMgr.push ( stateFile, ... )
 
 		addStateLayers ( curState, #stateStack )
 	else
-	
+	 
 		rebuildRenderStack ()
 	end
 end

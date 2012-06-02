@@ -1,4 +1,4 @@
-require ( 'modules/TiledEditor')
+require ( 'modules.TiledEditor')
 
 local Map = {}
 

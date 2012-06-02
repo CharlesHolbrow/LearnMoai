@@ -8,9 +8,9 @@ package.path = ( '?.lua;lua/?.lua;' )
 
 Rig = require ( 'modules.Rig' )
 require ( 'CCResourceCache' )
+Pointer = require ( 'input.Pointer' )
 Loc = require ( 'modules.Loc' )
 Map = require ( 'modules.Map' )
-Mouse = require ( 'modules.Mouse' )
 StateMgr = require ( 'modules.StateMgr' )
 
 deckCache = initResourceCache ()
