@@ -6,7 +6,7 @@ local Map = {}
 -- A Map stores:
 --	* A Tileset
 --	* A Single MOAIGrid object
---	* A sparse matrix of CCTile objects 
+--	* A sparse matrix of Tile objects TODO: IMPLEMENT
 ----------------------------------------------------------------
 
 ----------------------------------------------------------------

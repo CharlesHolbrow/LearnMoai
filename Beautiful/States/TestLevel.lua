@@ -41,14 +41,19 @@ state.onLoad = function ( self )
 	-- DEBUG:
 	self.map.transform:moveLoc (-150, -150, 1)
 
+	self.player.walkToward = function ( wndX, wndY )
+		local x, y = self.map:wndToCoord ( wndX, wndY )
+		Map.moveTowardCoord ( self.player, x, y ) 
+	end
+	Pointer.tap.callback = self.player.walkToward
+
 end 
 
 state.onInput = function ( self )
 
-	if Pointer.up () then
-		local x, y = self.map:wndToCoord ( Pointer.x, Pointer.y )
-		Map.moveTowardCoord ( self.player, x, y ) 
-	end
+	
+		
+	
 end
 
 state.onUnload = function ( self )
