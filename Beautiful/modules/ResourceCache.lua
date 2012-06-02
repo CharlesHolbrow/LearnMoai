@@ -1,7 +1,8 @@
-local resourceCache = Rig.new ()
+local ResourceCache = Rig.new ()
 
-function initResourceCache ()
+function ResourceCache.new ()
 	cache = Rig.new ( resourceCache )
+	setmetatable ( cache, { __index = ResourceCache } )
 	-- Make resources a weak table for values
 	mt = getmetatable ( cache )
 	mt.__mode = 'v'
@@ -9,7 +10,7 @@ function initResourceCache ()
 end
 
 
-function resourceCache:addDeck ( fn, key )
+function ResourceCache:addDeck ( fn, key )
 	local name, xSize, ySize = string.match ( fn, '^(.*)(%d+)x(%d+)\.png$' )
 	local deck 
 	-- assume textureName3x2.png is a MOAITileDeck2D texture
@@ -28,3 +29,4 @@ function resourceCache:addDeck ( fn, key )
 	return deck
 end
 
+return ResourceCache
