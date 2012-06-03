@@ -22,10 +22,12 @@ state.onLoad = function ( self )
 	self.map.partition = layer:getPartition ()
 	
 	-- Set a callback for Mouse drag
-	self.drag = function ( dx, dy )
-		self.camera:moveLoc ( dx * -2 , dy * 2 )
+	self.drag = function ( mode, dx, dy )
+		if mode == 'DRAG' then
+			self.camera:moveLoc ( dx * -2 , dy * 2 )
+		end
 	end
-	Pointer.drag.callback = self.drag
+	Pointer.setDragCallback ( self.drag )
 
 	-- Add a character
 	self.player = Rig.new ()
@@ -45,14 +47,11 @@ state.onLoad = function ( self )
 		local x, y = self.map:wndToCoord ( wndX, wndY )
 		Map.moveTowardCoord ( self.player, x, y ) 
 	end
-	Pointer.tap.callback = self.player.walkToward
+	Pointer.setTapCallback ( self.player.walkToward )
 
 end 
 
 state.onInput = function ( self )
-
-	
-		
 	
 end
 
