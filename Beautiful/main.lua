@@ -17,7 +17,7 @@ Map 		= require ( 'modules.Map' )
 StateMgr	= require ( 'modules.StateMgr' )
 
 
-StateMgr.push ( 'States/TestLevel.lua' )
+StateMgr.push ( 'states/TestLevel.lua' )
 
 deckCache:debug ()
 
