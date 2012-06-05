@@ -22,7 +22,7 @@ local updateThread = MOAIThread.new ()
 local function updateFunction ()
 	
 	while true do
-		
+
 		coroutine.yield ()
 			
 		if curState then

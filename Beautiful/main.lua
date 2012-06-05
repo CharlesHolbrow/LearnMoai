@@ -19,6 +19,6 @@ StateMgr	= require ( 'modules.StateMgr' )
 
 StateMgr.push ( 'states/TestLevel.lua' )
 
-deckCache:debug ()
+Pointer:debug ()
 
 StateMgr.begin ()

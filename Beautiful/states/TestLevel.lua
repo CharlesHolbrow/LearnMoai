@@ -1,7 +1,6 @@
 local state = {}
+
 state.layerTable = nil
---
-state.tapActions = nil
 
 state.onLoad = function ( self ) 
 	
@@ -21,13 +20,6 @@ state.onLoad = function ( self )
 	layer:insertProp ( self.map.prop )
 	self.map.partition = layer:getPartition ()
 	
-	-- Set a callback for Mouse drag
-	self.drag = function ( mode, dx, dy )
-		if mode == 'DRAG' then
-			self.camera:moveLoc ( dx * -2 , dy * 2 )
-		end
-	end
-	Pointer.setDragCallback ( self.drag )
 
 	-- Add a character
 	self.player = Rig.new ()
@@ -43,17 +35,30 @@ state.onLoad = function ( self )
 	-- DEBUG:
 	self.map.transform:moveLoc (-150, -150, 1)
 
-	self.player.walkToward = function ( wndX, wndY )
-		local x, y = self.map:wndToCoord ( wndX, wndY )
-		Map.moveTowardCoord ( self.player, x, y ) 
-	end
-	Pointer.setTapCallback ( self.player.walkToward )
-
 end 
 
 state.onInput = function ( self )
-	
+
+	local dragX, dragY = Pointer.drag ()
+	local tapX, tapY = Pointer.tap ()
+
+	if dragX then
+
+		print ( 'TestLevel: Drag ', dragX, dragY )
+		self.camera:moveLoc ( dragX * -2 , dragY * 2 )
+
+	end
+
+	if tapX then
+
+		print ( 'TestLevel: Tap', tapX, tapY )
+		local x, y = self.map:wndToCoord ( tapX, tapY )
+		Map.moveTowardCoord ( self.player, x, y ) 
+
+	end
+
 end
+
 
 state.onUnload = function ( self )
 end

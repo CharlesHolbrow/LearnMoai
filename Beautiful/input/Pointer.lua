@@ -1,39 +1,41 @@
 local Pointer = Rig.new ()
 
+-- Current location of pointer
 local pointerX = 0
 local pointerY = 0
-local pressTime = 0
+-- Location of the pointer before the last movement
+local lastX = 0
+local lastY = 0
+
+local pressTime = nil
+local releaseTime = nil
 local pressX = nil
 local pressY = nil
-local drag = false 
+
+-- dx dy is the difference between the current pointer position
+-- and the position before the last movement
+local dx = 0
+local dy = 0
+
+-- dragX, dragY represent the amound that pointer was moved 
+-- while dragging. 
 local dragX = nil
 local dragY = nil
+
+-- drag is true while the pointer is dragging
+local drag = false
+
+local pressElapsedFrames = 0
+local releaseElapsedFrames = 0
+local moveElapsedFrames = 0
+local releaseFromTapElapsedFrames = 0
+
 
 -- If pointer moves > DRAG_THRESHOLD pixels in window space from 
 -- the origin of a tap during a press, then it is considered a 
 -- drag, not a tap
-local DRAG_THRESHOLD = 20
+local DRAG_THRESHOLD = 12
 
-----------------------------------------------------------------
--- Add Pointer Actions
-----------------------------------------------------------------
-local dragCallback = function ( mode, dx, dy ) print ( 'Drag:', mode, dx, dy ) end 
-local tapCallback = function ( px, py ) print ( 'Tap', px, py ) end
-
-function Pointer.setDragCallback ( func )
-
-	if type ( func ) == 'function' then dragCallback = func end
-
-end
-
-function Pointer.setTapCallback  ( func ) 
-	
-	if type ( func ) == 'function' then tapCallback = func end	
-
-end
-
-Pointer.press = {}
-Pointer.press.actions = {}
 
 ----------------------------------------------------------------
 -- Process Input as reported by MOAI Framework. 
@@ -44,62 +46,64 @@ local function pressCallback ( down )
 
 	if down then 
 
-		Pointer.pressTime = MOAISim.getElapsedTime ()
+		pressElapsedFrames = MOAISim.getElapsedFrames ()
+		pressTime = MOAISim.getElapsedTime ()
 		pressX, pressY = pointerX, pointerY
 
-	elseif not drag then 
 
-		tapCallback ( pressX, pressY )
+	else
 
-	elseif drag then 		
+		releaseElapsedFrames = MOAISim.getElapsedFrames ()
+		releaseTime = MOAISim.getElapsedTime ()
+		releaseX, releaseY = pointerX, pointerY
 
-		drag = false
-		dragCallback ( 'STOP', pointerX, pointerY )
-		dragX = nil
-		dragY = nil
+		-- If we release, and are in the middle of a drag
+		if drag then 
 
+			drag = false
+			dragX = nil
+			dragY = nil
+
+		-- If we release, and are not in the middle of a drag
+		else
+
+			releaseFromTapElapsedFrames = MOAISim.getElapsedFrames ()
+
+		end
 	end
-
-	for k, func in pairs ( Pointer.press.actions ) do 
-
-		func ( down ) 
-
-	end
-
 end
 MOAIInputMgr.device.mouseLeft:setCallback ( pressCallback )
 
 -- TODO: on mobile platforms, call pointerCallback from an intermediary function
 local function pointerCallback ( x, y )
 
-	local lastX = pointerX
-	local lastY = pointerY
-	local dx = x - lastX
-	local dy = y - lastY
+	moveElapsedFrames = MOAISim.getElapsedFrames ()
+
+	lastX = pointerX
+	lastY = pointerY
+
+	dx = x - lastX
+	dy = y - lastY
 	
 	pointerX = x
 	pointerY = y
 
 	if Pointer:isDown () then
 
-		local totalX = x - pressX
-		local totalY = y - pressY 
-
-		if not drag and Calc.hypotenuse ( totalX, totalY ) > DRAG_THRESHOLD then 
+		if not drag and 
+			Calc.hypotenuse ( x - pressX, y - pressY ) > 
+			DRAG_THRESHOLD then 
 
 			-- if this is the first frame of the drag, 'CATCH UP'
-			dx = x - pressX
-			dy = y - pressY
+			dragX = x - pressX
+			dragY = y - pressY
 			drag = true
-			dragCallback ( 'START', pressX, pressY )
 
-		end
-
-		if drag then
+		-- If this is not the first drag frame. 
+		elseif drag then
 
 			dragX = dx
 			dragY = dy 
-			dragCallback ( 'DRAG', dx, dy )
 
 		end
 	end
@@ -110,6 +114,8 @@ MOAIInputMgr.device.pointer:setCallback ( pointerCallback )
 ----------------------------------------------------------------
 -- Retrive info about status of input devices
 ----------------------------------------------------------------
+
+-- Did the pointer press/click in the most recent update 
 function Pointer.down ()
 	
 	if MOAIInputMgr.device.touch then	
@@ -124,13 +130,30 @@ function Pointer.down ()
 	end
 end
 
-function Pointer:getDownDuration ()
+-- XY amount of the pointer's most recent movement
+function Pointer.delta ()
+	return dx, dy 
+end
+
+-- Get delta XY if currently dragging, nil if not dragging
+function Pointer.drag ()
+
+	if drag and moveElapsedFrames == MOAISim.getElapsedFrames () then 
+
+		return dragX, dragY 
+
+	end
+end
+
+-- How long has the pointer been depressed for 
+function Pointer.getDownDuration ()
 
 	if not Pointer.isDown () then return 0 end
 	return MOAISim.getElapsedTime () - pressTime
 
 end
 
+-- Is the pointer input currently pressed
 function Pointer.isDown ()
 	
 	if MOAIInputMgr.device.touch then	
@@ -145,6 +168,25 @@ function Pointer.isDown ()
 	end
 end
 
+-- Last XY position there was a pointer click/press
+function Pointer.pressXY ()
+
+	return pressX, pressY
+
+end
+
+-- If there was a Tap during this update, return coordinates
+-- else, return nil
+function Pointer.tap ()
+	
+	if releaseFromTapElapsedFrames == MOAISim.getElapsedFrames () then
+
+		return pressX, pressY
+
+	end
+end
+
+-- Did the pointer unpress/release in the previous update 
 function Pointer.up ()
 	
 	if MOAIInputMgr.device.touch then	
@@ -159,6 +201,7 @@ function Pointer.up ()
 	end
 end
 
+-- Current or most recent position of the pointer
 function Pointer.XY () return pointerX, pointerY end
 
 function Pointer.X () return pointerX end
