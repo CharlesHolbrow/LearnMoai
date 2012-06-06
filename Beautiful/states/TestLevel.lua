@@ -41,6 +41,7 @@ state.onInput = function ( self )
 
 	local dragX, dragY = Pointer.drag ()
 	local tapX, tapY = Pointer.tap ()
+	local holdX, holdY = Pointer.hold () 
 
 	if dragX then
 
@@ -55,6 +56,12 @@ state.onInput = function ( self )
 		local x, y = self.map:wndToCoord ( tapX, tapY )
 		Map.moveTowardCoord ( self.player, x, y ) 
 
+	end
+
+	if holdX then
+
+		print ( 'TestLevel: Hold', holdX, holdY )
+		
 	end
 
 end

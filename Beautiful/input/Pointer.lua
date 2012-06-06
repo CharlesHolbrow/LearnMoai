@@ -7,8 +7,8 @@ local pointerY = 0
 local lastX = 0
 local lastY = 0
 
-local pressTime = nil
-local releaseTime = nil
+local pressTime = 0
+local releaseTime = 0
 local pressX = nil
 local pressY = nil
 
@@ -29,12 +29,17 @@ local pressElapsedFrames = 0
 local releaseElapsedFrames = 0
 local moveElapsedFrames = 0
 local releaseFromTapElapsedFrames = 0
+local releaseFromHoldElapsedFrames = 0
 
 
 -- If pointer moves > DRAG_THRESHOLD pixels in window space from 
 -- the origin of a tap during a press, then it is considered a 
 -- drag, not a tap
 local DRAG_THRESHOLD = 12
+
+-- If Pointer is pressed for > HOLD_THRESHOLD seconds
+-- without being a drag, then it's a Hold, and not a Tap
+local HOLD_THRESHOLD = 0.3
 
 
 ----------------------------------------------------------------
@@ -67,8 +72,16 @@ local function pressCallback ( down )
 		-- If we release, and are not in the middle of a drag
 		else
 
-			releaseFromTapElapsedFrames = MOAISim.getElapsedFrames ()
+			-- Did we release from a hold or from a tap
+			if releaseTime - pressTime > HOLD_THRESHOLD then 
 
+				releaseFromHoldElapsedFrames = MOAISim.getElapsedFrames ()
+
+			else
+
+				releaseFromTapElapsedFrames = MOAISim.getElapsedFrames ()
+
+			end
 		end
 	end
 end
@@ -168,6 +181,17 @@ function Pointer.isDown ()
 	end
 end
 
+-- If input is currently a hold, return pressX, pressY.
+-- If input is not a hold, return nil
+function Pointer.hold ()
+
+	if not drag and Pointer.getDownDuration () > HOLD_THRESHOLD then
+
+		return pressX, pressY 
+
+	end
+end
+
 -- Last XY position there was a pointer click/press
 function Pointer.pressXY ()
 
@@ -179,7 +203,7 @@ end
 -- else, return nil
 function Pointer.tap ()
 	
-	if releaseFromTapElapsedFrames == MOAISim.getElapsedFrames () then
+	if releaseFromTapElapsedFrames == MOAISim.getElapsedFrames () then 
 
 		return pressX, pressY
 
