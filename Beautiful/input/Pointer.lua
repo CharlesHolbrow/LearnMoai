@@ -1,14 +1,23 @@
 local Pointer = Rig.new ()
 
--- Current location of pointer
+
+-- If pointer moves > DRAG_THRESHOLD pixels in window space from 
+-- the origin of a tap during a press, then it is considered a 
+-- drag, not a tap
+local DRAG_THRESHOLD = 15
+
+-- If Pointer is pressed for > HOLD_THRESHOLD seconds
+-- without being a drag, then it's a Hold, and not a Tap
+local HOLD_THRESHOLD = 0.33
+
+
+-- Most recent location of pointer
 local pointerX = 0
 local pointerY = 0
 -- Location of the pointer before the last movement
 local lastX = 0
 local lastY = 0
-
-local pressTime = 0
-local releaseTime = 0
+-- Location of the pointer on the last press/click
 local pressX = nil
 local pressY = nil
 
@@ -17,30 +26,22 @@ local pressY = nil
 local dx = 0
 local dy = 0
 
--- dragX, dragY represent the amound that pointer was moved 
--- while dragging. 
+-- dragX, dragY represent the amound that pointer was moved in the 
+-- current frame during the current drag action. nil when not dragging
 local dragX = nil
 local dragY = nil
 
 -- drag is true while the pointer is dragging
 local drag = false
 
+local pressTime = 0
+local releaseTime = 0
+
 local pressElapsedFrames = 0
 local releaseElapsedFrames = 0
 local moveElapsedFrames = 0
 local releaseFromTapElapsedFrames = 0
 local releaseFromHoldElapsedFrames = 0
-
-
--- If pointer moves > DRAG_THRESHOLD pixels in window space from 
--- the origin of a tap during a press, then it is considered a 
--- drag, not a tap
-local DRAG_THRESHOLD = 12
-
--- If Pointer is pressed for > HOLD_THRESHOLD seconds
--- without being a drag, then it's a Hold, and not a Tap
-local HOLD_THRESHOLD = 0.3
-
 
 ----------------------------------------------------------------
 -- Process Input as reported by MOAI Framework. 
