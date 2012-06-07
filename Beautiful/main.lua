@@ -10,15 +10,16 @@ Rig 		  = require ( 'modules.Rig' )
 ResourceCache = require ( 'modules.ResourceCache' )
 deckCache = ResourceCache.new ()
 
-Calc 		= require ( 'modules.Calc' )
-Pointer 	= require ( 'input.Pointer' )
-Loc 		= require ( 'modules.Loc' )
-Map 		= require ( 'modules.Map' )
-StateMgr	= require ( 'modules.StateMgr' )
+Calc 			= require ( 'modules.Calc' )
+Pointer		 	= require ( 'input.Pointer' )
+Loc 			= require ( 'modules.Loc' )
+Character		= require ( 'gameObjects.Character' )
+SparseMapLayer 	= require ( 'modules.SparseMapLayer' )
+Map 			= require ( 'modules.Map' )
+StateMgr		= require ( 'modules.StateMgr' )
 
 
 StateMgr.push ( 'states/TestLevel.lua' )
 
-Pointer:debug ()
 
 StateMgr.begin ()

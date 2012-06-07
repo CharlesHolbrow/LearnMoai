@@ -21,12 +21,7 @@ state.onLoad = function ( self )
 	self.map.partition = layer:getPartition ()
 	
 
-	-- Add a character
-	self.player = Rig.new ()
-
-	self.player.deck = deckCache:addDeck ( 'img/man_map_3x1.png' )
-	self.player.prop = MOAIProp2D.new () 
-	self.player.prop:setDeck ( self.player.deck )
+	self.player = Character.new ()
 	self.player.map = self.map
 
 	-- add newly created player to layer
@@ -55,6 +50,7 @@ state.onInput = function ( self )
 		print ( 'TestLevel: Tap', tapX, tapY )
 		local x, y = self.map:wndToCoord ( tapX, tapY )
 		Map.moveTowardCoord ( self.player, x, y ) 
+		self.player:setIndex ( ( self.player.prop:getIndex () % 4 ) + 1 )
 
 	end
 
