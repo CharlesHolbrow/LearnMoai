@@ -14,8 +14,8 @@ Calc 			= require ( 'modules.Calc' )
 Pointer		 	= require ( 'input.Pointer' )
 Loc 			= require ( 'modules.Loc' )
 Character		= require ( 'gameObjects.Character' )
-SparseMapLayer 	= require ( 'modules.SparseMapLayer' )
-Map 			= require ( 'modules.Map' )
+SparseMapLayer 	= require ( 'modules.map.SparseLayer' )
+Map 			= require ( 'modules.map.Map' )
 StateMgr		= require ( 'modules.StateMgr' )
 
 

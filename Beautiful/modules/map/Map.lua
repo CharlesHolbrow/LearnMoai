@@ -1,4 +1,4 @@
-require ( 'modules.TiledEditor')
+TileEditor = require ( 'modules.map.TiledEditor')
 
 local Map = {}
 
