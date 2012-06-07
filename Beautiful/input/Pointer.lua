@@ -8,7 +8,7 @@ local DRAG_THRESHOLD = 15
 
 -- If Pointer is pressed for > HOLD_THRESHOLD seconds
 -- without being a drag, then it's a Hold, and not a Tap
-local HOLD_THRESHOLD = 0.33
+local HOLD_THRESHOLD = 0.28
 
 
 -- Most recent location of pointer
@@ -26,7 +26,7 @@ local pressY = nil
 local dx = 0
 local dy = 0
 
--- dragX, dragY represent the amound that pointer was moved in the 
+-- dragX, dragY represent the amount that pointer was moved in the 
 -- current frame during the current drag action. nil when not dragging
 local dragX = nil
 local dragY = nil
@@ -129,6 +129,11 @@ MOAIInputMgr.device.pointer:setCallback ( pointerCallback )
 -- Retrive info about status of input devices
 ----------------------------------------------------------------
 
+-- XY amount of the pointer's most recent movement
+function Pointer.delta ()
+	return dx, dy 
+end
+
 -- Did the pointer press/click in the most recent update 
 function Pointer.down ()
 	
@@ -142,11 +147,6 @@ function Pointer.down ()
 			MOAIInputMgr.device.mouseLeft:down ()
 		)
 	end
-end
-
--- XY amount of the pointer's most recent movement
-function Pointer.delta ()
-	return dx, dy 
 end
 
 -- Get delta XY if currently dragging, nil if not dragging
@@ -232,6 +232,7 @@ function Pointer.XY () return pointerX, pointerY end
 function Pointer.X () return pointerX end
 
 function Pointer.Y () return pointerY end
+
 
 return Pointer
 
