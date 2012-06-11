@@ -15,17 +15,18 @@ state.onLoad = function ( self )
 
 	-- Add a map to the scene
 	self.map = Map.new ( 'map/desertTest100x100.lua' ) 
-	self.map.layer = layer
+	self.map:setLayer ( layer )
+
 	-- A partition is automaticly created when inserting a prop
-	layer:insertProp ( self.map.prop )
 	self.map.partition = layer:getPartition ()
 
 
 	self.player = Character.new ()
 	self.player.map = self.map
+	self.player:setLayer ( layer )
 
 	-- add newly created player to layer
-	layer:insertProp ( self.player.prop )
+	--layer:insertProp ( self.player.prop )
 
 	-- DEBUG:
 	self.map.transform:moveLoc (0, 0, 1)
@@ -61,11 +62,6 @@ state.onInput = function ( self )
 
 		--print ( 'TestLevel: Tile', x, y )
 		local props  = Map.propTableForCoord ( self.map, x, y )
-
-		for k, v in pairs ( props ) do
-			print ( v.rig.name )
-			Rig.debug ( getmetatable ( v ) )
-		end
 
 		Map.moveTowardCoord ( self.player, x, y ) 
 		--self.player:setIndex ( ( self.player.prop:getIndex () % 4 ) + 1 )

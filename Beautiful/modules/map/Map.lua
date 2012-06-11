@@ -75,13 +75,11 @@ function Map.new ( luaMapPath )
 	-- create tileset for first 
 	map.tileset = TiledEditor.initTileset ( map.luaMap.tilesets[1] ) 
 
-	map.prop = MOAIProp2D.new ()
+	map:setProp ( MOAIProp2D.new () )
 	map.prop:setDeck ( map.tileset.deck )
 	map.prop:setGrid ( map.grid )
 
 	map.prop:setParent ( map.transform )
-	map.prop.userdata = {}
-	map.prop.rig = map
 
 	return map
 end

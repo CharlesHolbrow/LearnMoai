@@ -2,13 +2,14 @@ MOAISim.openWindow ( "test", 512, 512 )
 
 viewport = MOAIViewport.new ()
 viewport:setSize ( 512, 512 )
-viewport:setScale ( 312, 312 )
+viewport:setScale ( 512, 512 )
 
 
 package.path = ( '?.lua;lua/?.lua;' )
 
-Rig 		  = require ( 'modules.Rig' )
-ResourceCache = require ( 'modules.ResourceCache' )
+Util			= require ( 'util.Util' )
+Rig				= require ( 'modules.Rig' )
+ResourceCache	= require ( 'modules.ResourceCache' )
 deckCache = ResourceCache.new ()
 
 Calc 			= require ( 'modules.Calc' )

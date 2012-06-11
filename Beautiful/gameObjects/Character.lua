@@ -7,7 +7,7 @@ function Character.new ()
 	-- Add a character
 
 	char.deck = deckCache:addDeck ( 'img/man_map_3x1.png' )
-	char.prop = MOAIProp2D.new () 
+	char:setProp ( MOAIProp2D.new () )
 	char.prop:setDeck ( char.deck )
 	char.prop.rig = char
 
