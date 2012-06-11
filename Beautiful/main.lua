@@ -2,7 +2,8 @@ MOAISim.openWindow ( "test", 512, 512 )
 
 viewport = MOAIViewport.new ()
 viewport:setSize ( 512, 512 )
-viewport:setScale ( 512, 512 )
+viewport:setScale ( 312, 312 )
+
 
 package.path = ( '?.lua;lua/?.lua;' )
 
@@ -23,3 +24,4 @@ StateMgr.push ( 'states/TestLevel.lua' )
 
 
 StateMgr.begin ()
+

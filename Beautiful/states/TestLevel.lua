@@ -19,7 +19,7 @@ state.onLoad = function ( self )
 	-- A partition is automaticly created when inserting a prop
 	layer:insertProp ( self.map.prop )
 	self.map.partition = layer:getPartition ()
-	
+
 
 	self.player = Character.new ()
 	self.player.map = self.map
@@ -28,8 +28,17 @@ state.onLoad = function ( self )
 	layer:insertProp ( self.player.prop )
 
 	-- DEBUG:
-	self.map.transform:moveLoc (-150, -150, 1)
+	self.map.transform:moveLoc (0, 0, 1)
+	
+	--MOAIDebugLines.setStyle ( MOAIDebugLines.PROP_MODEL_BOUNDS, 2, 0.1, 0.1, 1 )
+	--MOAIDebugLines.setStyle ( MOAIDebugLines.PARTITION_CELLS, 4, 0, 0 )
+	--MOAIDebugLines.setStyle ( MOAIDebugLines.PROP_WORLD_BOUNDS, 2, 0.75, 0.75, 0.75 )
 
+	self.map.grid:setTileFlags ( 2, 2, MOAIGridSpace.TILE_HIDE )
+	self.map.grid:setTileFlags ( 3, 3, MOAIGridSpace.TILE_HIDE )
+	self.map.grid:setTileFlags ( 4, 3, MOAIGridSpace.TILE_HIDE )
+
+	Map.moveTowardCoord ( self.player, 1, 1 )
 end 
 
 state.onInput = function ( self )
@@ -47,10 +56,20 @@ state.onInput = function ( self )
 
 	if tapX then
 
-		print ( 'TestLevel: Tap', tapX, tapY )
+		--print ( 'TestLevel: Tap', tapX, tapY )
 		local x, y = self.map:wndToCoord ( tapX, tapY )
+
+		--print ( 'TestLevel: Tile', x, y )
+		local props  = Map.propTableForCoord ( self.map, x, y )
+
+		for k, v in pairs ( props ) do
+			print ( v.rig.name )
+			Rig.debug ( getmetatable ( v ) )
+		end
+
 		Map.moveTowardCoord ( self.player, x, y ) 
-		self.player:setIndex ( ( self.player.prop:getIndex () % 4 ) + 1 )
+		--self.player:setIndex ( ( self.player.prop:getIndex () % 4 ) + 1 )
+		--print ( 'TestLevel: world', self.map.layer:wndToWorld ( tapX, tapY) )
 
 	end
 
