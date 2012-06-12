@@ -22,7 +22,6 @@ function Rig.new ( initial )
 
 	setmetatable ( newRig,  { __index = mt } )
 
-
 	return newRig
 
 end 

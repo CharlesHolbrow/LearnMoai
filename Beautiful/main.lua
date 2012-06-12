@@ -1,13 +1,11 @@
 MOAISim.openWindow ( "test", 512, 512 )
 
-print ( type ( MOAIProp2D.new () ) )
-
 viewport = MOAIViewport.new ()
 viewport:setSize ( 512, 512 )
 viewport:setScale ( 512, 512 )
 
 
-package.path = ( '?.lua;lua/?.lua;' )
+package.path = ( '?.lua;' )
 
 Util			= require ( 'util.Util' )
 Rig				= require ( 'modules.Rig' )
