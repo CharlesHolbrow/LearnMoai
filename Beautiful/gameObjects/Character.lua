@@ -6,13 +6,15 @@ function Character.new ()
 	char.name = 'Player Character'
 	-- Add a character
 
-	char.deck = deckCache:addDeck ( 'img/man_map_3x1.png' )
-	char:setProp ( MOAIProp2D.new () )
-	char.prop:setDeck ( char.deck )
-	char.prop.rig = char
+	char.data.deck = deckCache:addDeck ( 'img/man_map_3x1.png' )
+
+	local prop = MOAIProp2D.new ()
+	prop:setDeck ( char.data.deck )
+
+	char:addProp ( prop )
 
 	function char.setIndex (self,  i )
-	 	self.prop:setIndex ( i )
+	 	self.data.props[1]:setIndex ( i )
 	end
 
 	return char 

@@ -1,5 +1,7 @@
 MOAISim.openWindow ( "test", 512, 512 )
 
+print ( type ( MOAIProp2D.new () ) )
+
 viewport = MOAIViewport.new ()
 viewport:setSize ( 512, 512 )
 viewport:setScale ( 512, 512 )

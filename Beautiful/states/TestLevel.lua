@@ -29,15 +29,15 @@ state.onLoad = function ( self )
 	--layer:insertProp ( self.player.prop )
 
 	-- DEBUG:
-	self.map.transform:moveLoc (0, 0, 1)
+	self.map.data.transform.moveLoc (0, 0, 1)
 	
 	--MOAIDebugLines.setStyle ( MOAIDebugLines.PROP_MODEL_BOUNDS, 2, 0.1, 0.1, 1 )
 	--MOAIDebugLines.setStyle ( MOAIDebugLines.PARTITION_CELLS, 4, 0, 0 )
 	--MOAIDebugLines.setStyle ( MOAIDebugLines.PROP_WORLD_BOUNDS, 2, 0.75, 0.75, 0.75 )
 
-	self.map.grid:setTileFlags ( 2, 2, MOAIGridSpace.TILE_HIDE )
-	self.map.grid:setTileFlags ( 3, 3, MOAIGridSpace.TILE_HIDE )
-	self.map.grid:setTileFlags ( 4, 3, MOAIGridSpace.TILE_HIDE )
+	self.map.data.grid:setTileFlags ( 2, 2, MOAIGridSpace.TILE_HIDE )
+	self.map.data.grid:setTileFlags ( 3, 3, MOAIGridSpace.TILE_HIDE )
+	self.map.data.grid:setTileFlags ( 4, 3, MOAIGridSpace.TILE_HIDE )
 
 	Map.moveTowardCoord ( self.player, 1, 1 )
 end 
@@ -57,15 +57,17 @@ state.onInput = function ( self )
 
 	if tapX then
 
-		--print ( 'TestLevel: Tap', tapX, tapY )
+		print ( 'TestLevel: Tap', tapX, tapY )
 		local x, y = self.map:wndToCoord ( tapX, tapY )
 
-		--print ( 'TestLevel: Tile', x, y )
+		print ( 'TestLevel: Tile', x, y )
 		local props  = Map.propTableForCoord ( self.map, x, y )
+
+		for i, prop in ipairs ( props ) do print ( prop.rig.name ) end 
 
 		Map.moveTowardCoord ( self.player, x, y ) 
 		--self.player:setIndex ( ( self.player.prop:getIndex () % 4 ) + 1 )
-		--print ( 'TestLevel: world', self.map.layer:wndToWorld ( tapX, tapY) )
+		print ( 'TestLevel: world', self.map.data.layer:wndToWorld ( tapX, tapY) )
 
 	end
 

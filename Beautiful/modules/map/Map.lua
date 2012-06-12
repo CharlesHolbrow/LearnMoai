@@ -21,7 +21,7 @@ Input:
 
 --------------------------------------------------------------]]
 function Map.moveTowardCoord ( rig, x, y )
-	local coordX, coordY = rig.map:worldToCoord ( Loc.getLoc ( rig ) )
+	local coordX, coordY = rig.map:worldToCoord ( rig.data.transform:getLoc () )
 
 	--print ( 'Rig Coord', coordX, coordY ) 
 
@@ -42,44 +42,51 @@ function Map.moveTowardCoord ( rig, x, y )
 	coordX = coordX + moveX
 	coordY = coordY + moveY
 	x, y = rig.map:coordToWorld ( coordX, coordY )
-	rig.prop:seekLoc ( x, y, 0.1 )
+	rig.data.transform:seekLoc ( x, y, 0.1 ) -- TODO: make less HACKy
+
 end
 
 
 function Map.new ( luaMapPath )
 
 	local map = Rig.new ()
+	map.data.prop =  MOAIProp2D.new ()
 	map.name = 'Map-' .. luaMapPath
-	map.transform = MOAITransform2D.new ()
-
+	
 	function map:wndToCoord ( x, y )
-		x, y = Loc.wndToObject ( self, x, y )
-		return self.grid:locToCoord ( x, y )
+		--print ( x, y ) 
+		x, y = Loc.wndToModel ( self, x, y )
+		--print ( x, y ) 
+		--print ( self.data.grid:locToCoord ( x, y ) )
+		return self.data.grid:locToCoord ( x, y )
 	end		
+
 	function map:coordToWorld ( gridX, gridY, position )
-		local objectX, objectY = self.grid:getTileLoc ( gridX, gridY, position )
-		local x, y = Loc.getLoc ( self ) 
-		return x + objectX, y + objectY
-	end
-	function map:worldToCoord ( x, y )
-		x, y = Loc.worldToObject ( self, x, y )
-		return self.grid:locToCoord ( x, y )
+		local modelX, modelY = self.data.grid:getTileLoc ( gridX, gridY, position )
+		--local x, y = self:getLoc () 
+		local x, y = self.data.prop:getLoc ()
+		return x + modelX, y + modelY
 	end
 
-	map.luaMap = dofile ( luaMapPath )
+	function map:worldToCoord ( x, y )
+		x, y = self.data.prop:worldToModel ( x, y )
+		return self.data.grid:locToCoord ( x, y )
+	end
+
+	map.data.luaMap = dofile ( luaMapPath )
 
 	-- Convert first layer to a grid. assume it's a tilelayer
-	map.grid = TiledEditor.initGrid ( map.luaMap.layers[1], 
-									  map.luaMap.tilewidth, 
-									  map.luaMap.tileheight )
+	map.data.grid = TiledEditor.initGrid ( map.data.luaMap.layers[1], 
+									  map.data.luaMap.tilewidth, 
+									  map.data.luaMap.tileheight )
 	-- create tileset for first 
-	map.tileset = TiledEditor.initTileset ( map.luaMap.tilesets[1] ) 
+	map.data.tileset = TiledEditor.initTileset ( map.data.luaMap.tilesets[1] ) 
 
-	map:setProp ( MOAIProp2D.new () )
-	map.prop:setDeck ( map.tileset.deck )
-	map.prop:setGrid ( map.grid )
+	local prop  = MOAIProp2D.new ()
+	prop:setDeck ( map.data.tileset.deck )
+	prop:setGrid ( map.data.grid )
 
-	map.prop:setParent ( map.transform )
+	map:addProp ( prop )
 
 	return map
 end
@@ -95,17 +102,17 @@ Input
 --------------------------------------------------------------]]
 function Map.propTableForCoord ( map, x, y )
 
-	local tileXSize, tileYSize = map.grid:getCellSize ()
+	local tileXSize, tileYSize = map.data.grid:getCellSize ()
 	local tileX, tileY = map:coordToWorld ( x, y, MOAIGridSpace.TILE_LEFT_TOP )
 	local upperRightX = tileX + tileXSize - 1
 	local upperRightY = tileY + tileYSize - 1
 	tileX = tileX + 1
 	tileY = tileY + 1
 
-	--print ( 'DEBUG:  lower left:')
+	--print ( 'DEBUG: lower left:')
 	--print ( tileX, tileY )
 	--print ( upperRightX, upperRightY )
-	return { map.layer:getPartition ():propListForRect ( tileX, tileY, upperRightX, upperRightY ) } 
+	return { map.data.layer:getPartition ():propListForRect ( tileX, tileY, upperRightX, upperRightY ) } 
 
 end
 
