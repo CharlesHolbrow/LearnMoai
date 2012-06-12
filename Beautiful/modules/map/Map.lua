@@ -2,12 +2,12 @@ TileEditor = require ( 'modules.map.TiledEditor')
 
 local Map = {}
 
-----------------------------------------------------------------
--- A Map stores:
---	* A Tileset
---	* A Single MOAIGrid object
---	* A sparse matrix of Tile objects TODO: IMPLEMENT
-----------------------------------------------------------------
+--[[------------------------------------------------------------
+A Map stores:
+	* A Tileset
+	* A Single MOAIGrid object
+	* A sparse matrix of Tile objects TODO: IMPLEMENT
+--------------------------------------------------------------]]
 
 
 --[[------------------------------------------------------------

@@ -57,17 +57,16 @@ state.onInput = function ( self )
 
 	if tapX then
 
-		print ( 'TestLevel: Tap', tapX, tapY )
+		--print ( 'TestLevel: Tap', tapX, tapY )
 		local x, y = self.map:wndToCoord ( tapX, tapY )
 
-		print ( 'TestLevel: Tile', x, y )
+		--print ( 'TestLevel: Tile', x, y )
 		local props  = Map.propTableForCoord ( self.map, x, y )
 
 		for i, prop in ipairs ( props ) do print ( prop.rig.name ) end 
 
 		Map.moveTowardCoord ( self.player, x, y ) 
-		--self.player:setIndex ( ( self.player.prop:getIndex () % 4 ) + 1 )
-		print ( 'TestLevel: world', self.map.data.layer:wndToWorld ( tapX, tapY) )
+		--self.player:setIndex ( ( self.player.props [ 1 ] :getIndex () % 4 ) + 1 )
 
 	end
 
