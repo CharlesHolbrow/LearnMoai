@@ -39,6 +39,10 @@ assert ( result == nil )
 print ( '\n--- Testing Rig ---' )
 Rig = require ( 'modules.Rig' )
 
+l0 = MOAILayer2D.new () 
+l0:setViewport ( viewport )
+MOAISim.pushRenderPass ( l0 )
+
 l1 = MOAILayer2D.new ()
 l1:setViewport ( viewport )
 MOAISim.pushRenderPass ( l1 )
@@ -52,8 +56,15 @@ d1:setTexture ( 'img/man_map_3x1.png' )
 d1:setSize ( 3, 1 )
 d1:setRect ( -16, -16, 16, 16 )
 
+d2 = MOAITileDeck2D.new ()
+d2:setTexture ( 'img/man_map_3x1' )
+d2:setSize ( 21, 10 )
+d2:setRect ( -16, -16, 16, 16 )
+
+
 r1 = Rig.new ()
 r2 = Rig.new ()
+r3 = Rig.new ()
 
 p1 = MOAIProp2D.new ()
 p1:setDeck ( d1 )
@@ -66,6 +77,26 @@ p3 = MOAIProp2D.new ()
 p3:setDeck ( d1 )
 p3:setIndex ( 3 )
 p3:moveLoc ( 32, 0 )
+
+
+function makePixelProp ( index )
+	local pixel = MOAIProp2D.new ()
+	pixel:setDeck ( d2 )
+	pixel:setIndex ( index or 87 )
+	return pixel
+end
+
+pix1 = makePixelProp ()
+pix2 = makePixelProp ()
+pix3 = makePixelProp ()
+
+r3:setLayer ( l0 )
+pix1:setLoc ( -200, 150 )
+pix2:setLoc ( -151, 200 )
+pix3:setLoc ( -119, 200 )
+r3:addProp ( pix1 )
+r3:addProp ( pix2 )
+r3:addProp ( pix3 )
 
 r1:addProp ( p1 )
 r1:addProp ( p3 )
@@ -94,6 +125,19 @@ end
 
 thread = MOAIThread.new ()
 thread:run ( threadFunc )
+
+
+
+function onClick ( down )
+
+	if down then
+
+		local x, y  = MOAIInputMgr.device.pointer:getLoc () 
+		print ( 'World Coordinates:', l3:wndToWorld ( x, y ) ) 
+
+	end
+end
+MOAIInputMgr.device.mouseLeft:setCallback ( onClick )
 
 
 --l2:insertProp ( p1 )
