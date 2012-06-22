@@ -22,8 +22,9 @@ state.onLoad = function ( self )
 
 
 	self.player = Character.new ()
-	self.player.map = self.map
 	self.player:setLayer ( layer )
+
+	self.map:addRig ( self.player )
 
 	-- add newly created player to layer
 	--layer:insertProp ( self.player.prop )
@@ -35,9 +36,9 @@ state.onLoad = function ( self )
 	--MOAIDebugLines.setStyle ( MOAIDebugLines.PARTITION_CELLS, 4, 0, 0 )
 	--MOAIDebugLines.setStyle ( MOAIDebugLines.PROP_WORLD_BOUNDS, 2, 0.75, 0.75, 0.75 )
 
-	self.map.data.grid:setTileFlags ( 2, 2, MOAIGridSpace.TILE_HIDE )
-	self.map.data.grid:setTileFlags ( 3, 3, MOAIGridSpace.TILE_HIDE )
-	self.map.data.grid:setTileFlags ( 4, 3, MOAIGridSpace.TILE_HIDE )
+	--self.map.data.grid:setTileFlags ( 2, 2, MOAIGridSpace.TILE_HIDE )
+	--self.map.data.grid:setTileFlags ( 3, 3, MOAIGridSpace.TILE_HIDE )
+	--self.map.data.grid:setTileFlags ( 4, 3, MOAIGridSpace.TILE_HIDE )
 
 	Map.moveTowardCoord ( self.player, 1, 1 )
 end 

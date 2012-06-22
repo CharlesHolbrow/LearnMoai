@@ -2,15 +2,17 @@ local Rig = {}
 Rig.__index = Rig
 
 
-function Rig.new ( initial )
+--[[------------------------------------------------------------
+By default, data table is only created if no initial is supplied
+To create the data table and transform when supplying an 
+initial, set createData to a true value
+--------------------------------------------------------------]]
+function Rig.new ( initial, createData )
 
 	newRig = {}
 
 	-- Don't create a data table when deriving
-	-- Consider if this is really the best option:
-	-- Perhaps it would be useful to hold each rig responsible
-	-- for maintaining it's own data table
-	if not initial then 
+	if not initial or createData then 
 
 		newRig.data = {} 
 		newRig.data.props = {}
@@ -31,9 +33,9 @@ end
 --[[------------------------------------------------------------
 Set rig.layer
 
-if rig has layer and prop. remove the prop from the layer
+If rig has layer and prop. remove the prop from the layer
 
-If the rig has a data.props table, insert props into layer. 
+Insert props from  data.props table into layer. 
 --------------------------------------------------------------]]
 function Rig:setLayer ( layer )
 

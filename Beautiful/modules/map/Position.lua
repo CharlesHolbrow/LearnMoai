@@ -1,0 +1,3 @@
+local MapPosition = {}
+
+return MapPosition

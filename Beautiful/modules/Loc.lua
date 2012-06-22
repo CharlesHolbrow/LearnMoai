@@ -1,6 +1,5 @@
 Loc = {}
 
-
 --[[------------------------------------------------------------
  Get the relative location of a point in window coordinates to a rig 
 Output: 

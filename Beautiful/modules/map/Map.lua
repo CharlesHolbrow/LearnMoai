@@ -1,4 +1,6 @@
-TileEditor = require ( 'modules.map.TiledEditor')
+local MapPosition =	require ( 'modules.map.Position' )
+local TileEditor = 	require ( 'modules.map.TiledEditor')
+
 
 local Map = {}
 
@@ -10,10 +12,43 @@ A Map stores:
 --------------------------------------------------------------]]
 
 
+function Map:wndToCoord ( x, y )
+	--print ( x, y ) 
+	x, y = Loc.wndToModel ( self, x, y )
+	--print ( x, y ) 
+	--print ( self.data.grid:locToCoord ( x, y ) )
+	return self.data.grid:locToCoord ( x, y )
+end		
+
+
+function Map:coordToWorld ( gridX, gridY, position )
+	local modelX, modelY = self.data.grid:getTileLoc ( gridX, gridY, position )
+	--local x, y = self:getLoc () 
+	local x, y = self.data.prop:getLoc ()
+	return x + modelX, y + modelY
+end
+
+
+function Map:worldToCoord ( x, y )
+	x, y = self.data.prop:worldToModel ( x, y )
+	return self.data.grid:locToCoord ( x, y )
+end
+
+
+function Map:addRig ( rig, xCoord, yCoord )
+	if rig.data.map then 
+		print ( 'WARNING: ' .. rig.name .. ' cannot be added to map: ' ..  self.name )
+		print ( '(' .. rig.name .. ' already has a map)' )
+		return 
+	end
+	rig.data.map = self
+end
+
+
 --[[------------------------------------------------------------
-Move a rig one tile twoard another tile
+Move a rig one tile toward another tile
 Input:
-	rig - thr rig to move 
+	rig - the rig to move 
 		* must be locatable
 		* must have a map
 	x - the x grid coordinate to move in toward
@@ -21,7 +56,7 @@ Input:
 
 --------------------------------------------------------------]]
 function Map.moveTowardCoord ( rig, x, y )
-	local coordX, coordY = rig.map:worldToCoord ( rig.data.transform:getLoc () )
+	local coordX, coordY = rig.data.map:worldToCoord ( rig.data.transform:getLoc () )
 
 	--print ( 'Rig Coord', coordX, coordY ) 
 
@@ -41,38 +76,19 @@ function Map.moveTowardCoord ( rig, x, y )
 
 	coordX = coordX + moveX
 	coordY = coordY + moveY
-	x, y = rig.map:coordToWorld ( coordX, coordY )
+	x, y = rig.data.map:coordToWorld ( coordX, coordY )
 	rig.data.transform:seekLoc ( x, y, 0.1 ) -- TODO: make less HACKy
 
 end
 
 
+-- TODO: use Props table, setLayer, etc. 
 function Map.new ( luaMapPath )
 
-	local map = Rig.new ()
+	local map = Rig.new ( Map, true ) --TODO: using createData = true means Rig functions are not available. 
 	map.data.prop =  MOAIProp2D.new ()
 	map.name = 'Map-' .. luaMapPath
 	
-	function map:wndToCoord ( x, y )
-		--print ( x, y ) 
-		x, y = Loc.wndToModel ( self, x, y )
-		--print ( x, y ) 
-		--print ( self.data.grid:locToCoord ( x, y ) )
-		return self.data.grid:locToCoord ( x, y )
-	end		
-
-	function map:coordToWorld ( gridX, gridY, position )
-		local modelX, modelY = self.data.grid:getTileLoc ( gridX, gridY, position )
-		--local x, y = self:getLoc () 
-		local x, y = self.data.prop:getLoc ()
-		return x + modelX, y + modelY
-	end
-
-	function map:worldToCoord ( x, y )
-		x, y = self.data.prop:worldToModel ( x, y )
-		return self.data.grid:locToCoord ( x, y )
-	end
-
 	map.data.luaMap = dofile ( luaMapPath )
 
 	-- Convert first layer to a grid. assume it's a tilelayer
