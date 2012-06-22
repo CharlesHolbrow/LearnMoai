@@ -1,8 +1,9 @@
 local MapPosition =	require ( 'modules.map.Position' )
 local TileEditor = 	require ( 'modules.map.TiledEditor')
+local Rig = 		require ( 'modules.Rig' )
 
 
-local Map = {}
+local Map = Rig.new ()
 
 --[[------------------------------------------------------------
 A Map stores:
@@ -85,7 +86,11 @@ end
 -- TODO: use Props table, setLayer, etc. 
 function Map.new ( luaMapPath )
 
-	local map = Rig.new ( Map, true ) --TODO: using createData = true means Rig functions are not available. 
+	local map = Rig.new ( Map ) 
+	Util.debug ( Map )
+	Util.debug ( map )
+	map:initGameObject ()
+
 	map.data.prop =  MOAIProp2D.new ()
 	map.name = 'Map-' .. luaMapPath
 	

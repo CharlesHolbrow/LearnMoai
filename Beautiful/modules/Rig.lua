@@ -2,23 +2,24 @@ local Rig = {}
 Rig.__index = Rig
 
 
+
 --[[------------------------------------------------------------
-By default, data table is only created if no initial is supplied
-To create the data table and transform when supplying an 
-initial, set createData to a true value
+Add tables to rig that make it a GameObject
 --------------------------------------------------------------]]
-function Rig.new ( initial, createData )
+function Rig:initGameObject ()
+
+	self.data = {} 
+	self.data.props = {}
+	self.data.transform = MOAITransform2D.new ()
+
+end
+
+--[[------------------------------------------------------------
+Create a new rig instance, optionally derriving from another rig
+--------------------------------------------------------------]]
+function Rig.new ( initial )
 
 	newRig = {}
-
-	-- Don't create a data table when deriving
-	if not initial or createData then 
-
-		newRig.data = {} 
-		newRig.data.props = {}
-		newRig.data.transform = MOAITransform2D.new ()
-
-	end
 
 	local mt = initial or Rig
 
@@ -27,7 +28,6 @@ function Rig.new ( initial, createData )
 	return newRig
 
 end 
-
 
 
 --[[------------------------------------------------------------

@@ -3,6 +3,8 @@ Character = Rig.new ()
 function Character.new () 
 
 	local char = Rig.new ()
+	char:initGameObject ()
+	
 	char.name = 'Player Character'
 	-- Add a character
 
