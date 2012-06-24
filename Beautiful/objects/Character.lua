@@ -1,4 +1,3 @@
-local GameObject = require ( 'objects.GameObject' )
 local Character = Rig.new ( GameObject )
 
 function Character:talk ( msg )
@@ -12,7 +11,7 @@ function newCharacter ()
 
 	local char = Rig.new ( Character ) 
 
-	char:initGameObject ()
+	GameObject.init ( char )
 	
 	char.name = 'Player Character'
 	-- Add a character
@@ -22,7 +21,7 @@ function newCharacter ()
 	local prop = MOAIProp2D.new ()
 	prop:setDeck ( char.data.deck )
 
-	char:addProp ( prop )
+	GameObject.addProp ( char, prop )
 
 	return char 
 end

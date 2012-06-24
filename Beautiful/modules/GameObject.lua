@@ -1,23 +1,23 @@
-local GameObject = Rig.new ()
+local GameObject = {}
 
 
 --[[------------------------------------------------------------
 Add tables to rig that make it a GameObject
 --------------------------------------------------------------]]
-function GameObject:initGameObject ()
+function GameObject.init ( rig )
 
-	self.data = {} 
-	self.data.props = {}
-	self.data.transform = MOAITransform2D.new ()
+	rig.data = {} 
+	rig.data.props = {}
+	rig.data.transform = MOAITransform2D.new ()
 
 end
 
 --[[------------------------------------------------------------
 
 --------------------------------------------------------------]]
-function GameObject:setIndex ( deckIndex, propIndex )
+function GameObject.setIndex ( rig, deckIndex, propIndex )
 
-	 	self.data.props [ propIndex or 1 ]:setIndex ( deckIndex )
+	 	rig.data.props [ propIndex or 1 ]:setIndex ( deckIndex )
 
 end
 
@@ -28,28 +28,28 @@ If rig has layer and prop. remove the prop from the layer
 
 Insert props from  data.props table into layer. 
 --------------------------------------------------------------]]
-function GameObject:setLayer ( layer )
+function GameObject.setLayer ( rig, layer )
 
 	-- If the rig already has a layer, remove all props from 
 	-- that layer
-	if self.data.layer then
+	if rig.data.layer then
 
-		for i, prop in ipairs ( self.data.props ) do 
+		for i, prop in ipairs ( rig.data.props ) do 
 
-			self.data.layer:removeProp ( prop )
+			rig.data.layer:removeProp ( prop )
 			
 		end
 	end
 
 	-- Add all props to the new layer
-	for i, prop in ipairs ( self.data.props ) do 
+	for i, prop in ipairs ( rig.data.props ) do 
 
 		print ( 'setLayer - layer:insertProp' )
 		layer:insertProp ( prop )
 		
 	end 
 
-	self.data.layer = layer
+	rig.data.layer = layer
 
 end
 
@@ -60,24 +60,24 @@ Set prop.rig
 If the rig has a layer, add prop to the layer
 If the rig has a transform, parent the prop to the transform. 
 --------------------------------------------------------------]]
-function GameObject:addProp ( prop )
+function GameObject.addProp ( rig, prop )
 	
 	-- Add new prop to layer
-	if self.data.layer then
+	if rig.data.layer then
 
 		print ( 'addProp - layer:insertProp')
-		self.data.layer:insertProp ( prop )
+		rig.data.layer:insertProp ( prop )
 
 	end
 
 	-- Parent to transform 
-	if self.data.transform then
+	if rig.data.transform then
 
-		prop:setParent ( self.data.transform )
+		prop:setParent ( rig.data.transform )
 	end
 
-	prop.rig = self
-	table.insert ( self.data.props, prop )
+	prop.rig = rig
+	table.insert ( rig.data.props, prop )
 
 end
 

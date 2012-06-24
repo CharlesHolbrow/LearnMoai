@@ -1,6 +1,6 @@
 local MapPosition =	require ( 'objects.map.MapPosition' )
 local TileEditor = 	require ( 'objects.map.TiledEditor')
-local GameObject = 	require ( 'objects.GameObject' )
+local GameObject = 	require ( 'modules.GameObject' )
 local Rig = 		require ( 'modules.Rig' )
 
 
@@ -89,7 +89,7 @@ function Map.new ( luaMapPath )
 
 	local map = Rig.new ( Map ) 
 
-	map:initGameObject ()
+	GameObject.init ( map )
 
 	map.data.prop =  MOAIProp2D.new ()
 	map.name = 'Map-' .. luaMapPath
@@ -107,7 +107,7 @@ function Map.new ( luaMapPath )
 	prop:setDeck ( map.data.tileset.deck )
 	prop:setGrid ( map.data.grid )
 
-	map:addProp ( prop )
+	GameObject.addProp ( map, prop )
 
 	return map
 end

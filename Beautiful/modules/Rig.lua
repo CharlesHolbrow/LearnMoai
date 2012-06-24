@@ -19,6 +19,7 @@ function Rig.new ( initial )
 
 end 
 
+
 function Rig:debug ()
 
 	print ( '----------------' )
@@ -38,7 +39,7 @@ function Rig:debug ()
 		end
 	end
 	print ( '----------------' )
-	
+
 end
 
 return Rig 

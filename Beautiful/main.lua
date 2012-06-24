@@ -9,6 +9,7 @@ package.path = ( '?.lua;' )
 
 Util			= require ( 'util.Util' )
 Rig				= require ( 'modules.Rig' )
+GameObject		= require ( 'modules.GameObject' )
 ResourceCache	= require ( 'modules.ResourceCache' )
 deckCache = ResourceCache.new ()
 

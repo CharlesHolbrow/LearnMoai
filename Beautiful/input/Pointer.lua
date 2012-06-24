@@ -1,4 +1,4 @@
-local Pointer = Rig.new ()
+local Pointer = {}
 
 
 -- If pointer moves > DRAG_THRESHOLD pixels in window space from 
