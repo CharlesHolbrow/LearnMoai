@@ -36,7 +36,7 @@ function Map:worldToCoord ( x, y )
 	return self.data.grid:locToCoord ( x, y )
 end
 
-
+--TODO: Add a MapPosition to the rig
 function Map:addRig ( rig, xCoord, yCoord )
 	if rig.data.map then 
 		print ( 'WARNING: ' .. rig.name .. ' cannot be added to map: ' ..  self.name )
