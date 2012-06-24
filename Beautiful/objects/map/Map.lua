@@ -1,10 +1,10 @@
-local MapPosition =	require ( 'objects.map.Position' )
+local MapPosition =	require ( 'objects.map.MapPosition' )
 local TileEditor = 	require ( 'objects.map.TiledEditor')
-
+local GameObject = 	require ( 'objects.GameObject' )
 local Rig = 		require ( 'modules.Rig' )
 
 
-local Map = Rig.new ()
+local Map = Rig.new ( GameObject )
 
 --[[------------------------------------------------------------
 A Map stores:

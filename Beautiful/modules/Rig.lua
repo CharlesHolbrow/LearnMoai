@@ -3,23 +3,13 @@ Rig.__index = Rig
 
 
 
---[[------------------------------------------------------------
-Add tables to rig that make it a GameObject
---------------------------------------------------------------]]
-function Rig:initGameObject ()
-
-	self.data = {} 
-	self.data.props = {}
-	self.data.transform = MOAITransform2D.new ()
-
-end
 
 --[[------------------------------------------------------------
 Create a new rig instance, optionally derriving from another rig
 --------------------------------------------------------------]]
 function Rig.new ( initial )
 
-	newRig = {}
+	local newRig = {}
 
 	local mt = initial or Rig
 
@@ -29,66 +19,26 @@ function Rig.new ( initial )
 
 end 
 
+function Rig:debug ()
 
---[[------------------------------------------------------------
-Set rig.layer
-
-If rig has layer and prop. remove the prop from the layer
-
-Insert props from  data.props table into layer. 
---------------------------------------------------------------]]
-function Rig:setLayer ( layer )
-
-	-- If the rig already has a layer, remove all props from 
-	-- that layer
-	if self.data.layer then
-
-		for i, prop in ipairs ( self.data.props ) do 
-
-			self.data.layer:removeProp ( prop )
-			
+	print ( '----------------' )
+	print 'Rig contents: '
+	for k, v in pairs ( t ) do
+		print ( k, v )
+	end
+	print 'Metatable contents: '
+	local mt = getmetatable ( t )
+	for k, v in pairs ( mt ) do
+		print ( k, v )
+	end
+	if mt.__index then
+		print 'Metatable.__index contents:'
+		for k, v in pairs ( mt.__index ) do
+			print ( k, v )
 		end
 	end
-
-	-- Add all props to the new layer
-	for i, prop in ipairs ( self.data.props ) do 
-
-		print ( 'setLayer - layer:insertProp' )
-		layer:insertProp ( prop )
-		
-	end 
-
-	self.data.layer = layer
-
-end
-
---[[------------------------------------------------------------
-Add prop to rig.data.props
-Set prop.rig
-
-If the rig has a layer, add prop to the layer
-If the rig has a transform, parent the prop to the transform. 
---------------------------------------------------------------]]
-function Rig:addProp ( prop )
+	print ( '----------------' )
 	
-	-- Add new prop to layer
-	if self.data.layer then
-
-		print ( 'addProp - layer:insertProp')
-		self.data.layer:insertProp ( prop )
-
-	end
-
-	-- Parent to transform 
-	if self.data.transform then
-
-		prop:setParent ( self.data.transform )
-	end
-
-	prop.rig = self
-	table.insert ( self.data.props, prop )
-
 end
-
 
 return Rig 

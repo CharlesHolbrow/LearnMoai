@@ -21,7 +21,7 @@ state.onLoad = function ( self )
 	self.map.partition = layer:getPartition ()
 
 
-	self.player = Character.new ()
+	self.player = newCharacter ()
 	self.player:setLayer ( layer )
 
 	self.map:addRig ( self.player )
@@ -64,7 +64,17 @@ state.onInput = function ( self )
 		--print ( 'TestLevel: Tile', x, y )
 		local props  = Map.propTableForCoord ( self.map, x, y )
 
-		for i, prop in ipairs ( props ) do print ( prop.rig.name ) end 
+		for i, prop in ipairs ( props ) do 
+
+			print ( prop.rig.name ) 
+
+			if prop.rig.talk then 
+
+				prop.rig:talk ()
+
+			end
+
+		end 
 
 		Map.moveTowardCoord ( self.player, x, y ) 
 		--self.player:setIndex ( ( self.player.props [ 1 ] :getIndex () % 4 ) + 1 )

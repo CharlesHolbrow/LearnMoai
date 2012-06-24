@@ -1,8 +1,17 @@
-Character = Rig.new ()
+local GameObject = require ( 'objects.GameObject' )
+local Character = Rig.new ( GameObject )
 
-function Character.new () 
+function Character:talk ( msg )
 
-	local char = Rig.new ()
+	print ( self.name .. ': ' ..  ( msg or 'Hello!' ) )
+
+end
+
+
+function newCharacter () 
+
+	local char = Rig.new ( Character ) 
+
 	char:initGameObject ()
 	
 	char.name = 'Player Character'
@@ -15,12 +24,6 @@ function Character.new ()
 
 	char:addProp ( prop )
 
-	function char.setIndex (self,  i )
-	 	self.data.props[1]:setIndex ( i )
-	end
-
 	return char 
 end
 
-
-return Character
