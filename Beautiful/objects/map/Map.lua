@@ -1,5 +1,6 @@
-local MapPosition =	require ( 'modules.map.Position' )
-local TileEditor = 	require ( 'modules.map.TiledEditor')
+local MapPosition =	require ( 'objects.map.Position' )
+local TileEditor = 	require ( 'objects.map.TiledEditor')
+
 local Rig = 		require ( 'modules.Rig' )
 
 
@@ -45,7 +46,7 @@ function Map:addRig ( rig, xCoord, yCoord )
 	rig.data.map = self
 end
 
-
+--TODO: move this into MapPosition
 --[[------------------------------------------------------------
 Move a rig one tile toward another tile
 Input:
@@ -87,8 +88,7 @@ end
 function Map.new ( luaMapPath )
 
 	local map = Rig.new ( Map ) 
-	Util.debug ( Map )
-	Util.debug ( map )
+
 	map:initGameObject ()
 
 	map.data.prop =  MOAIProp2D.new ()

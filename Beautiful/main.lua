@@ -15,9 +15,9 @@ deckCache = ResourceCache.new ()
 Calc 			= require ( 'modules.Calc' )
 Pointer		 	= require ( 'input.Pointer' )
 Loc 			= require ( 'modules.Loc' )
-Character		= require ( 'gameObjects.Character' )
-SparseMapLayer 	= require ( 'modules.map.SparseLayer' )
-Map 			= require ( 'modules.map.Map' )
+Character		= require ( 'objects.Character' )
+SparseMapLayer 	= require ( 'objects.map.SparseLayer' )
+Map 			= require ( 'objects.map.Map' )
 StateMgr		= require ( 'modules.StateMgr' )
 
 
