@@ -1,7 +1,7 @@
-local ResourceCache = Rig.new ()
+local ResourceCache = {}
 
 function ResourceCache.new ()
-	cache = Rig.new ( resourceCache )
+	cache = {}
 	setmetatable ( cache, { __index = ResourceCache } )
 	-- Make resources a weak table for values
 	mt = getmetatable ( cache )

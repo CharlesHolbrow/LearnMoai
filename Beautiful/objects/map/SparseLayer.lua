@@ -1,6 +1,6 @@
-Rig = require ( 'modules.Rig' )
+Rig = require ( 'objects.Rig' )
 
-local SparseMapLayer = Rig.new () 
+local SparseMapLayer = {}
 
 function SparseMapLayer.new () 
 

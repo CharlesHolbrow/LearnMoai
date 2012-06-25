@@ -8,21 +8,24 @@ viewport:setScale ( 512, 512 )
 package.path = ( '?.lua;' )
 
 Util			= require ( 'util.Util' )
-Rig				= require ( 'modules.Rig' )
+Pointer		 	= require ( 'input.Pointer' )
+
+StateMgr		= require ( 'modules.StateMgr' )
 GameObject		= require ( 'modules.GameObject' )
+
 ResourceCache	= require ( 'modules.ResourceCache' )
 deckCache = ResourceCache.new ()
 
 Calc 			= require ( 'modules.Calc' )
-Pointer		 	= require ( 'input.Pointer' )
 Loc 			= require ( 'modules.Loc' )
 
+Rig				= require ( 'objects.Rig' )
 Character		= require ( 'objects.Character' )
 
 SparseMapLayer 	= require ( 'objects.map.SparseLayer' )
 MapPosition		= require ( 'objects.map.MapPosition' )
 Map 			= require ( 'objects.map.Map' )
-StateMgr		= require ( 'modules.StateMgr' )
+
 
 
 StateMgr.push ( 'states/TestLevel.lua' )

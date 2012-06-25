@@ -1,7 +1,7 @@
 local MapPosition =	require ( 'objects.map.MapPosition' )
 local TileEditor = 	require ( 'objects.map.TiledEditor')
 local GameObject = 	require ( 'modules.GameObject' )
-local Rig = 		require ( 'modules.Rig' )
+local Rig = 		require ( 'objects.Rig' )
 
 
 local Map = {}
