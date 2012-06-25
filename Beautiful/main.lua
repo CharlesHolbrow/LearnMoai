@@ -17,7 +17,7 @@ Calc 			= require ( 'modules.Calc' )
 Pointer		 	= require ( 'input.Pointer' )
 Loc 			= require ( 'modules.Loc' )
 
-require ( 'objects.Character' ) --Character		= require ( 'objects.Character' )
+Character		= require ( 'objects.Character' )
 
 SparseMapLayer 	= require ( 'objects.map.SparseLayer' )
 MapPosition		= require ( 'objects.map.MapPosition' )

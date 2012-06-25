@@ -1,4 +1,4 @@
-local Character = Rig.new ( GameObject )
+local Character = {}
 
 function Character:talk ( msg )
 
@@ -7,14 +7,13 @@ function Character:talk ( msg )
 end
 
 
-function newCharacter () 
+function Character.new () 
 
 	local char = Rig.new ( Character ) 
 
 	GameObject.init ( char )
 	
 	char.name = 'Player Character'
-	-- Add a character
 
 	char.data.deck = deckCache:addDeck ( 'img/man_map_3x1.png' )
 
@@ -24,5 +23,7 @@ function newCharacter ()
 	GameObject.addProp ( char, prop )
 
 	return char 
+
 end
 
+return Character

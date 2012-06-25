@@ -17,26 +17,20 @@ state.onLoad = function ( self )
 	self.map = Map.new ( 'map/desertTest100x100.lua' ) 
 	GameObject.setLayer ( self.map, ( layer ) )
 
-	self.player = newCharacter ()
-	self.player:setLayer ( layer )
+	self.player = Character.new ()
+	GameObject.setLayer ( self.player, layer )
 
 	Map.addRig ( self.map, self.player )
 
-	-- add newly created player to layer
-	--layer:insertProp ( self.player.prop )
-
 	-- DEBUG:
 	self.map.data.transform.moveLoc (0, 0, 1)
-	
-	--MOAIDebugLines.setStyle ( MOAIDebugLines.PROP_MODEL_BOUNDS, 2, 0.1, 0.1, 1 )
-	--MOAIDebugLines.setStyle ( MOAIDebugLines.PARTITION_CELLS, 4, 0, 0 )
-	--MOAIDebugLines.setStyle ( MOAIDebugLines.PROP_WORLD_BOUNDS, 2, 0.75, 0.75, 0.75 )
 
 	--self.map.data.grid:setTileFlags ( 2, 2, MOAIGridSpace.TILE_HIDE )
 	--self.map.data.grid:setTileFlags ( 3, 3, MOAIGridSpace.TILE_HIDE )
 	--self.map.data.grid:setTileFlags ( 4, 3, MOAIGridSpace.TILE_HIDE )
 
 	MapPosition.moveTowardCoord ( self.player, 1, 1 )
+
 end 
 
 state.onInput = function ( self )
