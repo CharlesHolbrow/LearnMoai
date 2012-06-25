@@ -15,16 +15,12 @@ state.onLoad = function ( self )
 
 	-- Add a map to the scene
 	self.map = Map.new ( 'map/desertTest100x100.lua' ) 
-	self.map:setLayer ( layer )
-
-	-- A partition is automaticly created when inserting a prop
-	self.map.partition = layer:getPartition ()
-
+	GameObject.setLayer ( self.map, ( layer ) )
 
 	self.player = newCharacter ()
 	self.player:setLayer ( layer )
 
-	self.map:addRig ( self.player )
+	Map.addRig ( self.map, self.player )
 
 	-- add newly created player to layer
 	--layer:insertProp ( self.player.prop )
@@ -40,7 +36,7 @@ state.onLoad = function ( self )
 	--self.map.data.grid:setTileFlags ( 3, 3, MOAIGridSpace.TILE_HIDE )
 	--self.map.data.grid:setTileFlags ( 4, 3, MOAIGridSpace.TILE_HIDE )
 
-	Map.moveTowardCoord ( self.player, 1, 1 )
+	MapPosition.moveTowardCoord ( self.player, 1, 1 )
 end 
 
 state.onInput = function ( self )
@@ -51,7 +47,7 @@ state.onInput = function ( self )
 
 	if dragX then
 
-		print ( 'TestLevel: Drag ', dragX, dragY )
+		--print ( 'TestLevel: Drag ', dragX, dragY )
 		self.camera:moveLoc ( dragX * -2 , dragY * 2 )
 
 	end
@@ -59,9 +55,10 @@ state.onInput = function ( self )
 	if tapX then
 
 		--print ( 'TestLevel: Tap', tapX, tapY )
-		local x, y = self.map:wndToCoord ( tapX, tapY )
+		local x, y = Map.wndToCoord ( self.map, tapX, tapY )
 
-		--print ( 'TestLevel: Tile', x, y )
+		print ( 'TestLevel: Map Coord', x, y )
+		print ( 'Player Position: ', MapPosition.getCoord ( self.player ) )
 		local props  = Map.propTableForCoord ( self.map, x, y )
 
 		for i, prop in ipairs ( props ) do 
@@ -76,7 +73,7 @@ state.onInput = function ( self )
 
 		end 
 
-		Map.moveTowardCoord ( self.player, x, y ) 
+		MapPosition.moveTowardCoord ( self.player, x, y ) 
 		--self.player:setIndex ( ( self.player.props [ 1 ] :getIndex () % 4 ) + 1 )
 
 	end

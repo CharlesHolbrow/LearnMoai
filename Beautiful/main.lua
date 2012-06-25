@@ -20,6 +20,7 @@ Loc 			= require ( 'modules.Loc' )
 require ( 'objects.Character' ) --Character		= require ( 'objects.Character' )
 
 SparseMapLayer 	= require ( 'objects.map.SparseLayer' )
+MapPosition		= require ( 'objects.map.MapPosition' )
 Map 			= require ( 'objects.map.Map' )
 StateMgr		= require ( 'modules.StateMgr' )
 

@@ -4,7 +4,7 @@ local GameObject = 	require ( 'modules.GameObject' )
 local Rig = 		require ( 'modules.Rig' )
 
 
-local Map = Rig.new ( GameObject )
+local Map = {}
 
 --[[------------------------------------------------------------
 A Map stores:
@@ -46,48 +46,12 @@ function Map:addRig ( rig, xCoord, yCoord )
 	rig.data.map = self
 end
 
---TODO: move this into MapPosition
---[[------------------------------------------------------------
-Move a rig one tile toward another tile
-Input:
-	rig - the rig to move 
-		* must be locatable
-		* must have a map
-	x - the x grid coordinate to move in toward
-	y - the y grid coordinate to move in toward
-
---------------------------------------------------------------]]
-function Map.moveTowardCoord ( rig, x, y )
-	local coordX, coordY = rig.data.map:worldToCoord ( rig.data.transform:getLoc () )
-
-	--print ( 'Rig Coord', coordX, coordY ) 
-
-	local diffX = x - coordX
-	local diffY = y - coordY
-
-	--print ( 'diffXY', diffX, diffY )
-
-	local moveX, moveY = 0, 0
-	
-	if diffX > 0 then moveX = 1 end
-	if diffX < 0 then moveX = -1 end
-	if diffY > 0 then moveY = 1 end
-	if diffY < 0 then moveY = -1 end
-
-	--print ( 'moveXY', moveX, moveY )
-
-	coordX = coordX + moveX
-	coordY = coordY + moveY
-	x, y = rig.data.map:coordToWorld ( coordX, coordY )
-	rig.data.transform:seekLoc ( x, y, 0.1 ) -- TODO: make less HACKy
-
-end
 
 
 -- TODO: use Props table, setLayer, etc. 
 function Map.new ( luaMapPath )
 
-	local map = Rig.new ( Map ) 
+	local map = Rig.new () 
 
 	GameObject.init ( map )
 
@@ -124,7 +88,7 @@ Input
 function Map.propTableForCoord ( map, x, y )
 
 	local tileXSize, tileYSize = map.data.grid:getCellSize ()
-	local tileX, tileY = map:coordToWorld ( x, y, MOAIGridSpace.TILE_LEFT_TOP )
+	local tileX, tileY = Map.coordToWorld ( map, x, y, MOAIGridSpace.TILE_LEFT_TOP )
 	local upperRightX = tileX + tileXSize - 1
 	local upperRightY = tileY + tileYSize - 1
 	tileX = tileX + 1
