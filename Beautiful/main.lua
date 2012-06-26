@@ -1,8 +1,11 @@
-MOAISim.openWindow ( "test", 512, 512 )
+Y_SIZE = 512
+X_SIZE = 1024
+
+MOAISim.openWindow ( "test", X_SIZE, Y_SIZE )
 
 viewport = MOAIViewport.new ()
-viewport:setSize ( 512, 512 )
-viewport:setScale ( 512, 512 )
+viewport:setSize ( X_SIZE, Y_SIZE )
+viewport:setScale ( X_SIZE, Y_SIZE )
 
 
 package.path = ( '?.lua;' )

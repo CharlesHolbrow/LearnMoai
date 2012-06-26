@@ -53,17 +53,14 @@ state.onInput = function ( self )
 
 		print ( 'TestLevel: Map Coord', x, y )
 		print ( 'Player Position: ', MapPosition.getCoord ( self.player ) )
-		local props  = Map.propTableForCoord ( self.map, x, y )
 
-		for i, prop in ipairs ( props ) do 
+		local rigs = Map.queryCoord ( self.map, x, y )
 
-			print ( prop.rig.name ) 
+		for i, rig in ipairs ( rigs ) do 
 
-			if prop.rig.talk then 
+			print ( rig.name ) 
 
-				prop.rig:talk ()
-
-			end
+			if rig.talk then  rig:talk () end
 
 		end 
 
