@@ -112,15 +112,21 @@ function Map.propListForCoord ( map, x, y )
 end
 
 --[[------------------------------------------------------------
-Return a Table of containing a rig for each prop at the specified
-coordinates. Don't include the map itself.  
+High level Tile Query!
+Return a table of rigs at the specified location. Get a psuedo 
+Rig for the tile instead of the map itself. 
+
 
 Input
 	- Same as Map.propListForCoord
+	- ALSO: map must have data.tileTable indexes corresponding 
+	  to the Map tile indexes (increment right from upper left)
 --------------------------------------------------------------]]
-function Map.rigTableForCoord ( map, x, y )
+function Map.queryCoord ( map, x, y )
 
-	local rigs = {}
+	local rigs = { map.data.tileTable [ map.data.grid:getTile ( x, y ) ] }
+
+
 	local props = { Map.propListForCoord ( map, x, y ) }
 
 	for i, prop in ipairs ( props ) do
@@ -146,15 +152,15 @@ Input
 	- ALSO: map must have data.tileTable indexes corresponding 
 	  to the Map tile indexes (increment right from upper left)
 --------------------------------------------------------------]]
-function Map.queryCoord ( map, x, y )
+-- function Map.queryCoord ( map, x, y )
 
-	local tile = map.data.tileTable [ map.data.grid:getTile ( x, y ) ] 
-	local rigs  = Map.rigTableForCoord ( map, x, y )
-	table.insert ( rigs, tile ) 
+-- 	local tile = map.data.tileTable [ map.data.grid:getTile ( x, y ) ] 
+-- 	local rigs  = Map.rigTableForCoord ( map, x, y )
+-- 	table.insert ( rigs, tile ) 
 
-	return rigs
+-- 	return rigs
 
-end
+-- end
 
 
 return Map
