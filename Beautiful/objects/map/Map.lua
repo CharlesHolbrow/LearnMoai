@@ -142,25 +142,5 @@ function Map.queryCoord ( map, x, y )
 	return rigs
 end
 
---[[------------------------------------------------------------
-High level Tile Query!
-Return a list of rigs at the specified location. Get a psuedo 
-Rig from looking at the the map.data.tileTable 
-
-Input
-	- Same as Map.propListForCoord
-	- ALSO: map must have data.tileTable indexes corresponding 
-	  to the Map tile indexes (increment right from upper left)
---------------------------------------------------------------]]
--- function Map.queryCoord ( map, x, y )
-
--- 	local tile = map.data.tileTable [ map.data.grid:getTile ( x, y ) ] 
--- 	local rigs  = Map.rigTableForCoord ( map, x, y )
--- 	table.insert ( rigs, tile ) 
-
--- 	return rigs
-
--- end
-
 
 return Map
