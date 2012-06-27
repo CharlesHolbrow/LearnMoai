@@ -8,8 +8,10 @@ local Map = {}
 
 --[[------------------------------------------------------------
 A Map stores:
-	* A Tileset
-	* A Single MOAIGrid object
+	* .tileset
+	* .tileset.deck - A MOAITileDeck2D 
+	* .tileset.rigs - A Rig for each tile in the MOAITileDeck2D
+	* .grid - A Single MOAIGrid object
 	* A sparse matrix of Tile objects TODO: IMPLEMENT
 --------------------------------------------------------------]]
 
@@ -53,8 +55,6 @@ function Map.addRig ( map, rig, xCoord, yCoord )
 end
 
 
-
--- TODO: use Props table, setLayer, etc. 
 function Map.new ( luaMapPath )
 
 	local map = Rig.new () 
@@ -67,13 +67,17 @@ function Map.new ( luaMapPath )
 
 	-- Convert first layer to a grid. assume it's a tilelayer
 	map.data.grid = TiledEditor.initGrid ( map.data.luaMap.layers[1], 
-									  map.data.luaMap.tilewidth, 
-									  map.data.luaMap.tileheight )
-	-- create tileset for first 
-	map.data.tileset = TiledEditor.initTileset ( map.data.luaMap.tilesets[1] ) 
+									 	map.data.luaMap.tilewidth, 
+									  	map.data.luaMap.tileheight )
 
-	-- Get the table containing info about the "tileset"
-	map.data.tileTable = dofile ( string.gsub ( luaMapPath, '(%.[Ll][Uu][Aa])$', '_Tiles%1' ) )
+	-- Assume there is only one tileset
+	map.data.tileset = Rig.new ()
+	map.data.tileset.deck = TiledEditor.initTileDeck ( map.data.luaMap.tilesets [ 1 ] )
+
+	-- If the tileset image is desert.png, get tileset rigs from desert.lua
+	local tileRigsPath = string.match ( 
+		map.data.luaMap.tilesets [ 1 ].image, '(.*)%.[^.]*$' ) .. '.lua' 
+	map.data.tileset.rigs = dofile ( tileRigsPath )
 
 	local prop  = MOAIProp2D.new ()
 	prop:setDeck ( map.data.tileset.deck )
@@ -98,7 +102,7 @@ NOTE: Returns a list, not a table
 function Map.propListForCoord ( map, x, y )
 
 	local tileXSize, tileYSize = map.data.grid:getCellSize ()
-	local tileX, tileY = Map.coordToWorld ( map, x, y, MOAIGridSpace.TILE_LEFT_TOP )
+	local tileX, tileY = Map.coordToWorld ( map, x, y, MOAIGridSpace.TILE_LEFT_TOP ) -- actually gets bottom left
 	local upperRightX = tileX + tileXSize - 1
 	local upperRightY = tileY + tileYSize - 1
 	tileX = tileX + 1
@@ -116,7 +120,6 @@ High level Tile Query!
 Return a table of rigs at the specified location. Get a psuedo 
 Rig for the tile instead of the map itself. 
 
-
 Input
 	- Same as Map.propListForCoord
 	- ALSO: map must have data.tileTable indexes corresponding 
@@ -124,8 +127,7 @@ Input
 --------------------------------------------------------------]]
 function Map.queryCoord ( map, x, y )
 
-	local rigs = { map.data.tileTable [ map.data.grid:getTile ( x, y ) ] }
-
+	local rigs = { map.data.tileset.rigs [ map.data.grid:getTile ( x, y ) ] }
 
 	local props = { Map.propListForCoord ( map, x, y ) }
 
