@@ -24,6 +24,33 @@ function initGrid ( tl, tileWidth, tileHeight )
 	return grid
 end
 
+--[[------------------------------------------------------------
+Create a 2D array of rig tables 
+Input
+	* tl - a Tile Map Editor "layer" with type = "tilelayer"
+--------------------------------------------------------------]]
+function initRigLayer ( tl, rigTable )
+
+	local i = -1
+
+	local xAxis = {}
+
+	for x = 1, tl.width  do 
+
+		xAxis [ x ] = {}
+
+		for y = 1, tl.height do
+
+			i = ( (tl.height - y ) * tl.width ) + x
+			print ( x, y, i, rigTable [ tl.data [ i ] ].name )
+			xAxis [ x ] [ y ] = rigTable [ tl.data [ i ] ]
+
+		end
+	end
+
+	return xAxis
+end
+
 ----------------------------------------------------------------
 -- Convert a tileset output by the tiled editor to a MOAITileDeck2D
 -- Input: 

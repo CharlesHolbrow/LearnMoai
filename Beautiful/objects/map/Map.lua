@@ -77,7 +77,10 @@ function Map.new ( luaMapPath )
 	-- If the tileset image is desert.png, get tileset rigs from desert.lua
 	local tileRigsPath = string.match ( 
 		map.data.luaMap.tilesets [ 1 ].image, '(.*)%.[^.]*$' ) .. '.lua' 
+	print ( 'Loading TileRigs table from: ' .. tileRigsPath )
 	map.data.tileset.rigs = dofile ( tileRigsPath )
+
+	map.data.rigLayer = TiledEditor.initRigLayer (map.data.luaMap.layers [ 1 ], map.data.tileset.rigs )
 
 	local prop  = MOAIProp2D.new ()
 	prop:setDeck ( map.data.tileset.deck )
@@ -127,7 +130,7 @@ Input
 --------------------------------------------------------------]]
 function Map.queryCoord ( map, x, y )
 
-	local rigs = { map.data.tileset.rigs [ map.data.grid:getTile ( x, y ) ] }
+	local rigs = { map.data.rigLayer [ x ] [ y ], map.data.tileset.rigs [ map.data.grid:getTile ( x, y ) ] }
 
 	local props = { Map.propListForCoord ( map, x, y ) }
 

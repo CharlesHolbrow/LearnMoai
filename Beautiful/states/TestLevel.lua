@@ -14,7 +14,9 @@ state.onLoad = function ( self )
 
 
 	-- Add a map to the scene
+	--self.map = Map.new ( 'map/desert05.lua' ) 
 	self.map = Map.new ( 'map/desertTest100x100.lua' ) 
+	
 	GameObject.setLayer ( self.map, ( layer ) )
 
 	self.player = Character.new ()
