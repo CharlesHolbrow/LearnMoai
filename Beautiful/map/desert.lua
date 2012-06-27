@@ -15,7 +15,7 @@ return {
 	gBWall, gBWall, gBWall,	gravel, gravel, gravel, gravel, gravel,
 	gBWall, gBWall, gBWall,	gravel, gravel, gravel, gravel, gravel,
 	gBWall, gBWall, gBWall, gBWall, gBWall, gravel, gravel, gravel, 
-	sWall, 	sWall, 	sWall, 	gbWall, gbWall, desert, cactus, rocks, 
+	sWall, 	sWall, 	sWall, 	gBWall, gBWall, desert, cactus, rocks, 
 	sWall, 	sPath, 	sWall, 	sWall, 	sWall, 	lBush, 	lBush, 	lBush, 
 	sWall, 	sPath, 	sWall, 	sWall, 	sWall, 	sign, 	sBush, 	sBush, 
 

@@ -1,7 +1,8 @@
-local MapPosition =	require ( 'objects.map.MapPosition' )
-local TileEditor = 	require ( 'objects.map.TiledEditor')
-local GameObject = 	require ( 'modules.GameObject' )
-local Rig = 		require ( 'objects.Rig' )
+local MapPosition =		require ( 'objects.map.MapPosition' )
+local TileEditor = 		require ( 'objects.map.TiledEditor')
+local GameObject = 		require ( 'modules.GameObject' )
+local SparseMapLayer = 	require ( 'objects.map.SparseMapLayer' )
+local Rig = 			require ( 'objects.Rig' )
 
 
 local Map = {}
@@ -80,7 +81,7 @@ function Map.new ( luaMapPath )
 	print ( 'Loading TileRigs table from: ' .. tileRigsPath )
 	map.data.tileset.rigs = dofile ( tileRigsPath )
 
-	map.data.rigLayer = TiledEditor.initRigLayer (map.data.luaMap.layers [ 1 ], map.data.tileset.rigs )
+	map.data.rigLayer = TiledEditor.newRigLayer (map.data.luaMap.layers [ 1 ], map.data.tileset.rigs )
 
 	local prop  = MOAIProp2D.new ()
 	prop:setDeck ( map.data.tileset.deck )
@@ -130,7 +131,7 @@ Input
 --------------------------------------------------------------]]
 function Map.queryCoord ( map, x, y )
 
-	local rigs = { map.data.rigLayer [ x ] [ y ], map.data.tileset.rigs [ map.data.grid:getTile ( x, y ) ] }
+	local rigs = { map.data.tileset.rigs [ map.data.grid:getTile ( x, y ) ], unpack ( map.data.rigLayer:getRigs ( x, y ) ) }
 
 	local props = { Map.propListForCoord ( map, x, y ) }
 

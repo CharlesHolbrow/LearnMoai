@@ -1,5 +1,7 @@
 module( 'TiledEditor' , package.seeall)
 
+local SparseMapLayer = 	require ( 'objects.map.SparseMapLayer' )
+
 ----------------------------------------------------------------
 -- Convert a Tiled Map Editor "layer" with type = "tilelayer" to a MOAIGrid
 -- Input: 
@@ -29,26 +31,23 @@ Create a 2D array of rig tables
 Input
 	* tl - a Tile Map Editor "layer" with type = "tilelayer"
 --------------------------------------------------------------]]
-function initRigLayer ( tl, rigTable )
+function newRigLayer ( tl, tilesetRigs )
 
-	local i = -1
-
-	local xAxis = {}
+	local sparseLayer = SparseMapLayer.new ()
+	local tilesetIndex = nil
 
 	for x = 1, tl.width  do 
-
-		xAxis [ x ] = {}
-
 		for y = 1, tl.height do
 
-			i = ( (tl.height - y ) * tl.width ) + x
-			print ( x, y, i, rigTable [ tl.data [ i ] ].name )
-			xAxis [ x ] [ y ] = rigTable [ tl.data [ i ] ]
+			tilesetIndex = tl.data [ ( (tl.height - y ) * tl.width ) + x ]
+			print ( tilesetIndex )
+			print ( x, y, tilesetRigs [ tilesetIndex ] )
+			sparseLayer:addRig ( tilesetRigs [ tilesetIndex ], x, y )
 
 		end
 	end
 
-	return xAxis
+	return sparseLayer
 end
 
 ----------------------------------------------------------------
