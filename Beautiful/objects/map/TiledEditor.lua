@@ -63,10 +63,16 @@ end
 function initTileset ( ts )
 	local tileset = Rig.new ()
 	tileset.deck = initTileDeck ( ts )
-	tileset.properties = {}
-	for k, v in pairs ( ts.tiles ) do
-		tileset.properties[v.id] = v.properties
-	end
+
+	-- Get properties from the TiledEditor lua file
+	--tileset.properties = {}
+	--for k, v in pairs ( ts.tiles ) do
+	--	tileset.properties[v.id] = v.properties
+	--end
+
+	-- Alternative: save properties in additional lua file
+	tileset.properties = dofile ( )
+
 	return tileset
 end
 

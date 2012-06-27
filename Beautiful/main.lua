@@ -23,6 +23,7 @@ Calc 			= require ( 'modules.Calc' )
 Loc 			= require ( 'modules.Loc' )
 
 Rig				= require ( 'objects.Rig' )
+--Emelents		= require ( 'modules.Elements' )
 Character		= require ( 'objects.Character' )
 
 MapPosition		= require ( 'objects.map.MapPosition' )
