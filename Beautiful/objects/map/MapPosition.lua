@@ -2,8 +2,8 @@ local MapPosition = {}
 
 --[[------------------------------------------------------------
 Whenever a rig is used as an argument here, it must
-	* have data.transform
-	* have data.map
+	* have .transform
+	* have .map
 --------------------------------------------------------------]]
 
 
@@ -14,7 +14,7 @@ Input:
 	y - the y grid coordinate to move in toward
 --------------------------------------------------------------]]
 function MapPosition.moveTowardCoord ( rig, x, y )
-	local coordX, coordY = Map.worldToCoord ( rig.data.map, rig.data.transform:getLoc () )
+	local coordX, coordY = Map.worldToCoord ( rig.map, rig.transform:getLoc () )
 
 	--print ( 'Rig Coord', coordX, coordY ) 
 
@@ -34,13 +34,13 @@ function MapPosition.moveTowardCoord ( rig, x, y )
 
 	coordX = coordX + moveX
 	coordY = coordY + moveY
-	x, y = Map.coordToWorld ( rig.data.map, coordX, coordY )
-	rig.data.transform:seekLoc ( x, y, 0.1 ) -- TODO: make less HACKy
+	x, y = Map.coordToWorld ( rig.map, coordX, coordY )
+	rig.transform:seekLoc ( x, y, 0.1 ) -- TODO: make less HACKy
 
 end
 
 function MapPosition.getCoord ( rig )
-	return Map.worldToCoord ( rig.data.map, rig.data.transform:getLoc () )
+	return Map.worldToCoord ( rig.map, rig.transform:getLoc () )
 end
 
 

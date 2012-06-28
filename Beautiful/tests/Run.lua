@@ -108,7 +108,7 @@ r2:setLayer ( l1 )
 
 function threadFunc ()
 	print ( 'Move Rig 1 to a offset location' )
-	local action = r1.data.transform:seekLoc ( 50, 50, 1 )
+	local action = r1.transform:seekLoc ( 50, 50, 1 )
 
 	print ( 'Moving layer 2 to a offest location')
 	l2:seekLoc ( -200, -150)

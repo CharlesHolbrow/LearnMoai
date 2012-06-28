@@ -15,10 +15,10 @@ function Character.new ()
 	
 	char.name = 'Player Character'
 
-	char.data.deck = deckCache:addDeck ( 'img/man_map_3x1.png' )
+	char.deck = deckCache:addDeck ( 'img/man_map_3x1.png' )
 
 	local prop = MOAIProp2D.new ()
-	prop:setDeck ( char.data.deck )
+	prop:setDeck ( char.deck )
 
 	GameObject.addProp ( char, prop )
 

@@ -7,25 +7,25 @@ Output:
 Input:
 	* rig: 	
 		- has transform, 
-		- has a layer data
+		- has a layer
 		- has no rotation ?? <-- double check, think about
 	* x, y 
 		- a point in window coordinates
 --------------------------------------------------------------]]
 function Loc.wndToModel ( rig, x, y )
 
-	local worldX, worldY = rig.data.layer:wndToWorld ( x, y )
-	return rig.data.transform:worldToModel ( worldX, worldY )
+	local worldX, worldY = rig.layer:wndToWorld ( x, y )
+	return rig.transform:worldToModel ( worldX, worldY )
 
 end
 
 
 --[[------------------------------------------------------------
- Find the difference between to rigs with transform data
+ Find the difference between to rigs with transforms
 --------------------------------------------------------------]]
 function Loc.diff ( startingRig, endingRig )
 
-	return endingRig.data.transform:getLoc () - startingRig.data.transform:getLoc ()
+	return endingRig.transform:getLoc () - startingRig.transform:getLoc ()
 
 end
 

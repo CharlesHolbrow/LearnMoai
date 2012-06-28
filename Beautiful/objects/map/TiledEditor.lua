@@ -66,41 +66,41 @@ function TiledEditor.new ( tiledEditorMapPath )
 	map.name = 'Map-' .. tiledEditorMapPath
 
 	-- Load the lua file exported from the Tiled Map Editor
-	map.data.tiledEditorMap = dofile ( tiledEditorMapPath )
+	map.tiledEditorMap = dofile ( tiledEditorMapPath )
 
 	-- The Tiled Editor Layer - get as much data from here as possible
 	-- Use the root of the document as a second resort
-	local tl = map.data.tiledEditorMap.layers [ 1 ]
+	local tl = map.tiledEditorMap.layers [ 1 ]
 
 	-- The width and height of the map in tiles
 	map.width = tl.width
 	map.height = tl.height
 
 	-- the width and height of a tile in pixels ( getting this from the root, not the layer )
-	map.tileWidth = map.data.tiledEditorMap.tilewidth 
-	map.tileHeight = map.data.tiledEditorMap.tileheight
+	map.tileWidth = map.tiledEditorMap.tilewidth 
+	map.tileHeight = map.tiledEditorMap.tileheight
 
 	-- Create a 2D array for storing rigs associated with the tilelayer
-	map.data.rigGrid = {}
+	map.rigGrid = {}
 	for i = 1, map.width do
 
-		map.data.rigGrid [ i ] = {}
+		map.rigGrid [ i ] = {}
 
 	end
 
 	-- If the tileset image is desert.png, get tileset rigs from desert.lua
 	local tileRigsPath = string.match ( 
-		map.data.tiledEditorMap.tilesets [ 1 ].image, '(.*)%.[^.]*$' ) .. '.lua' 
+		map.tiledEditorMap.tilesets [ 1 ].image, '(.*)%.[^.]*$' ) .. '.lua' 
 
 	-- Assume there is only one tileset
-	map.data.tileset = {}
-	map.data.tileset.rigs = dofile ( tileRigsPath )
-	map.data.tileset.deck = TiledEditor.initTileDeck ( map.data.tiledEditorMap.tilesets [ 1 ] )
+	map.tileset = {}
+	map.tileset.rigs = dofile ( tileRigsPath )
+	map.tileset.deck = TiledEditor.initTileDeck ( map.tiledEditorMap.tilesets [ 1 ] )
 	-- The map now should have all the info it needs to init the grid 
 
 	print ( 'Tilelayer name: ', tl.name )
 	local grid = MOAIGrid.new ()
-	map.data.grid = grid
+	map.grid = grid
 	grid.name = tl.name 
 
 	grid:initRectGrid ( map.width, map.height, map.tileWidth, map.tileHeight ) 
@@ -121,8 +121,8 @@ function TiledEditor.new ( tiledEditorMapPath )
 	end
 
 	local prop  = MOAIProp2D.new ()
-	prop:setDeck ( map.data.tileset.deck )
-	prop:setGrid ( map.data.grid )
+	prop:setDeck ( map.tileset.deck )
+	prop:setGrid ( map.grid )
 
 	GameObject.addProp ( map, prop )
 

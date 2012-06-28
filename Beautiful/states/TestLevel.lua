@@ -25,11 +25,11 @@ state.onLoad = function ( self )
 	Map.addRig ( self.map, self.player )
 
 	-- DEBUG:
-	self.map.data.transform.moveLoc (0, 0, 1)
+	self.map.transform.moveLoc (0, 0, 1)
 
-	--self.map.data.grid:setTileFlags ( 2, 2, MOAIGridSpace.TILE_HIDE )
-	--self.map.data.grid:setTileFlags ( 3, 3, MOAIGridSpace.TILE_HIDE )
-	--self.map.data.grid:setTileFlags ( 4, 3, MOAIGridSpace.TILE_HIDE )
+	--self.map.grid:setTileFlags ( 2, 2, MOAIGridSpace.TILE_HIDE )
+	--self.map.grid:setTileFlags ( 3, 3, MOAIGridSpace.TILE_HIDE )
+	--self.map.grid:setTileFlags ( 4, 3, MOAIGridSpace.TILE_HIDE )
 
 	MapPosition.moveTowardCoord ( self.player, 1, 1 )
 
