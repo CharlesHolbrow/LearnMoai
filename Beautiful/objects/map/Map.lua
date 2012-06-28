@@ -1,5 +1,4 @@
 local MapPosition =		require ( 'objects.map.MapPosition' )
-local TileEditor = 		require ( 'objects.map.TiledEditor')
 local GameObject = 		require ( 'modules.GameObject' )
 local SparseMapLayer = 	require ( 'objects.map.SparseMapLayer' )
 local Rig = 			require ( 'objects.Rig' )
@@ -56,41 +55,7 @@ function Map.addRig ( map, rig, xCoord, yCoord )
 end
 
 
-function Map.new ( luaMapPath )
 
-	local map = Rig.new () 
-
-	GameObject.init ( map )
-
-	map.name = 'Map-' .. luaMapPath
-	
-	map.data.luaMap = dofile ( luaMapPath )
-
-	-- Convert first layer to a grid. assume it's a tilelayer
-	map.data.grid = TiledEditor.initGrid ( map.data.luaMap.layers[1], 
-									 	map.data.luaMap.tilewidth, 
-									  	map.data.luaMap.tileheight )
-
-	-- Assume there is only one tileset
-	map.data.tileset = Rig.new ()
-	map.data.tileset.deck = TiledEditor.initTileDeck ( map.data.luaMap.tilesets [ 1 ] )
-
-	-- If the tileset image is desert.png, get tileset rigs from desert.lua
-	local tileRigsPath = string.match ( 
-		map.data.luaMap.tilesets [ 1 ].image, '(.*)%.[^.]*$' ) .. '.lua' 
-	print ( 'Loading TileRigs table from: ' .. tileRigsPath )
-	map.data.tileset.rigs = dofile ( tileRigsPath )
-
-	map.data.rigLayer = TiledEditor.newRigLayer (map.data.luaMap.layers [ 1 ], map.data.tileset.rigs )
-
-	local prop  = MOAIProp2D.new ()
-	prop:setDeck ( map.data.tileset.deck )
-	prop:setGrid ( map.data.grid )
-
-	GameObject.addProp ( map, prop )
-
-	return map
-end
 
 
 --[[------------------------------------------------------------
@@ -119,6 +84,7 @@ function Map.propListForCoord ( map, x, y )
 
 end
 
+
 --[[------------------------------------------------------------
 High level Tile Query!
 Return a table of rigs at the specified location. Get a psuedo 
@@ -131,7 +97,8 @@ Input
 --------------------------------------------------------------]]
 function Map.queryCoord ( map, x, y )
 
-	local rigs = { map.data.tileset.rigs [ map.data.grid:getTile ( x, y ) ], unpack ( map.data.rigLayer:getRigs ( x, y ) ) }
+	--local rigs = { map.data.tileset.rigs [ map.data.grid:getTile ( x, y ) ], unpack ( map.data.rigLayer:getRigs ( x, y ) ) }
+	local rigs = { Map.getTileRig ( map, x, y ) }
 
 	local props = { Map.propListForCoord ( map, x, y ) }
 
@@ -147,6 +114,33 @@ function Map.queryCoord ( map, x, y )
 
 	return rigs
 end
+
+
+--[[------------------------------------------------------------
+Set the Tile at a certain coordinate to a tileSetIndex
+
+Input
+	* map
+		- Has data.tileset that is a MOAIDeck2D 
+		- Has data.rigset with indexes corresponding to tileset
+		- Has data.grid That is a MOAIGrid
+		- Has data.rigGrid that is a large enough array of arrays
+	* x - is a valid x-coordinate within the data.grid, rigGrid
+	* y - is a valid y-coordinate within the data.grid, rigGrid
+	* tileIndex - a valid index in the tileset AND rigset
+--------------------------------------------------------------]]
+function Map.setTile ( map, x, y, tileIndex )
+
+	map.data.grid:setTile ( x, y, tileIndex )
+	map.data.rigGrid [ x ] [ y ] = map.data.rigset [ tileIndex ]
+
+end
+
+function Map.getTileRig ( map, x, y )
+
+	return map.data.rigGrid [ x ] [ y ]
+end
+
 
 
 return Map

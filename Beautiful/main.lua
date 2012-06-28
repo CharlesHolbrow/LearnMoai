@@ -26,6 +26,7 @@ Rig				= require ( 'objects.Rig' )
 --Emelents		= require ( 'modules.Elements' )
 Character		= require ( 'objects.Character' )
 
+TiledEditor		= require ( 'objects.map.TiledEditor' )
 MapPosition		= require ( 'objects.map.MapPosition' )
 Map 			= require ( 'objects.map.Map' )
 
