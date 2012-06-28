@@ -97,7 +97,6 @@ Input
 --------------------------------------------------------------]]
 function Map.queryCoord ( map, x, y )
 
-	--local rigs = { map.data.tileset.rigs [ map.data.grid:getTile ( x, y ) ], unpack ( map.data.rigLayer:getRigs ( x, y ) ) }
 	local rigs = { Map.getTileRig ( map, x, y ) }
 
 	local props = { Map.propListForCoord ( map, x, y ) }
@@ -121,18 +120,18 @@ Set the Tile at a certain coordinate to a tileSetIndex
 
 Input
 	* map
-		- Has data.tileset that is a MOAIDeck2D 
-		- Has data.rigset with indexes corresponding to tileset
+		- Has data.tileset.deck that is a MOAIDeck2D 
+		- Has data.tileset.rigs with indexes corresponding to tileset
 		- Has data.grid That is a MOAIGrid
 		- Has data.rigGrid that is a large enough array of arrays
 	* x - is a valid x-coordinate within the data.grid, rigGrid
 	* y - is a valid y-coordinate within the data.grid, rigGrid
-	* tileIndex - a valid index in the tileset AND rigset
+	* tileIndex - valid index for tileset.deck AND tileset.rigs
 --------------------------------------------------------------]]
 function Map.setTile ( map, x, y, tileIndex )
 
 	map.data.grid:setTile ( x, y, tileIndex )
-	map.data.rigGrid [ x ] [ y ] = map.data.rigset [ tileIndex ]
+	map.data.rigGrid [ x ] [ y ] = map.data.tileset.rigs [ tileIndex ]
 
 end
 

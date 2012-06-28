@@ -1,4 +1,4 @@
-Y_SIZE = 512
+Y_SIZE = 720
 X_SIZE = 1024
 
 MOAISim.openWindow ( "test", X_SIZE, Y_SIZE )

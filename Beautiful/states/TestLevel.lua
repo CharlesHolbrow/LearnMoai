@@ -63,6 +63,7 @@ state.onInput = function ( self )
 			print ( rig.name ) 
 
 			if rig.talk then  rig:talk () end
+			if rig.text then  print ( rig.text ) end
 
 		end 
 

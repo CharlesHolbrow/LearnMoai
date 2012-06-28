@@ -4,60 +4,6 @@ local Map = require ( 'objects.map.Map' )
 
 TiledEditor = {}
 
---[[------------------------------------------------------------
-Make a MOAIGrid object and a corresponding SparseLayer of Rigs
-Convert a Tiled Map Editor "layer" with type = "tilelayer" to a MOAIGrid
-Input: 
-	* tl - a Tiled Map Editor layer Lua table
-	* tileRigs - a table of rigs. with 
-	* tileWidth - width of a tile in world space
-	* tileHeight - height of a tile in world space
---------------------------------------------------------------]]
-function TiledEditor.initGrid ( map, tl, tileWidth, tileHeight )
-
-	print ( 'Tilelayer name: ', tl.name )
-	local grid = MOAIGrid.new ()
-	map.data.grid = grid
-	grid.name = tl.name 
-
-
-	grid:initRectGrid ( tl.width, tl.height, tileWidth, tileHeight ) 
-	grid:setRepeat ( false )
-	-- Convert tilelayer data to MOAIGrid coordinates
-	local i = 1
-	for y = tl.height, 1, -1 do
-		for x = 1, tl.width do
-			Map.setTile ( map, x, y, tl.data [ i ] )
-			--grid:setTile ( x, y, tl.data[i] )
-			--print ( 'setTile: ', x, y, tl.data[i] )
-			i = i + 1
-		end
-	end
-end
-
---[[------------------------------------------------------------
-Create a 2D array of rig tables 
-Input
-	* tl - a Tile Map Editor "layer" with type = "tilelayer"
---------------------------------------------------------------]]
-function TiledEditor.newRigLayer ( tl, tilesetRigs )
-
-	local sparseLayer = SparseMapLayer.new ()
-	local tilesetIndex = nil
-
-	for x = 1, tl.width  do 
-		for y = 1, tl.height do
-
-			tilesetIndex = tl.data [ ( (tl.height - y ) * tl.width ) + x ]
-			print ( tilesetIndex )
-			print ( x, y, tilesetRigs [ tilesetIndex ] )
-			sparseLayer:addRig ( tilesetRigs [ tilesetIndex ], x, y )
-
-		end
-	end
-
-	return sparseLayer
-end
 
 ----------------------------------------------------------------
 -- Convert a tileset output by the tiled editor to a MOAITileDeck2D
@@ -122,9 +68,21 @@ function TiledEditor.new ( tiledEditorMapPath )
 	-- Load the lua file exported from the Tiled Map Editor
 	map.data.tiledEditorMap = dofile ( tiledEditorMapPath )
 
+	-- The Tiled Editor Layer - get as much data from here as possible
+	-- Use the root of the document as a second resort
+	local tl = map.data.tiledEditorMap.layers [ 1 ]
+
+	-- The width and height of the map in tiles
+	map.width = tl.width
+	map.height = tl.height
+
+	-- the width and height of a tile in pixels ( getting this from the root, not the layer )
+	map.tileWidth = map.data.tiledEditorMap.tilewidth 
+	map.tileHeight = map.data.tiledEditorMap.tileheight
+
 	-- Create a 2D array for storing rigs associated with the tilelayer
 	map.data.rigGrid = {}
-	for i = 1, map.data.tiledEditorMap.layers[ 1 ].width do
+	for i = 1, map.width do
 
 		map.data.rigGrid [ i ] = {}
 
@@ -133,24 +91,34 @@ function TiledEditor.new ( tiledEditorMapPath )
 	-- If the tileset image is desert.png, get tileset rigs from desert.lua
 	local tileRigsPath = string.match ( 
 		map.data.tiledEditorMap.tilesets [ 1 ].image, '(.*)%.[^.]*$' ) .. '.lua' 
-	print ( 'Loading TileRigs table from: ' .. tileRigsPath )
-	map.data.rigset = dofile ( tileRigsPath )
 
 	-- Assume there is only one tileset
-	map.data.tileset = Rig.new ()
+	map.data.tileset = {}
+	map.data.tileset.rigs = dofile ( tileRigsPath )
 	map.data.tileset.deck = TiledEditor.initTileDeck ( map.data.tiledEditorMap.tilesets [ 1 ] )
+	-- The map now should have all the info it needs to init the grid 
 
-	-- Convert first layer to a grid. assume it's a tilelayer
-	TiledEditor.initGrid ( map, 
-						map.data.tiledEditorMap.layers[1], 
-					 	map.data.tiledEditorMap.tilewidth, 
-					  	map.data.tiledEditorMap.tileheight )
+	print ( 'Tilelayer name: ', tl.name )
+	local grid = MOAIGrid.new ()
+	map.data.grid = grid
+	grid.name = tl.name 
 
+	grid:initRectGrid ( map.width, map.height, map.tileWidth, map.tileHeight ) 
+	grid:setRepeat ( false )
+	
+	-- Older way to transform x, y coords to tileset index
+	--tilesetIndex = tl.data [ ( (tl.height - y ) * tl.width ) + x ]
 
+	-- Convert tilelayer data to MOAIGrid coordinates
+	local i = 1
+	for y = map.height, 1, -1 do
+		for x = 1, map.width do
 
+			Map.setTile ( map, x, y, tl.data [ i ] )
+			i = i + 1
 
-
-	--map.data.rigLayer = TiledEditor.newRigLayer (map.data.tiledEditorMap.layers [ 1 ], map.data.tileset.rigs )
+		end
+	end
 
 	local prop  = MOAIProp2D.new ()
 	prop:setDeck ( map.data.tileset.deck )

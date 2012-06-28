@@ -7,7 +7,7 @@ local sWall = 	{ name = 'Stone Wall', 			elements = { rocky = 80 } }
 local sPath = 	{ name = 'Stone Path', 			elements = { rocky = 0 } }
 local lBush = 	{ name = 'Large Bush', 			elements = { overgrown = 70, wooden = 50 } }
 local sBush = 	{ name = 'Small Bush', 			elements = { overgrown = 30, wooden = 30 } }
-local sign	=	{ name = 'Sign',  				elements = { wooden = 80 },					read = 'This sign is empty' }
+local sign	=	{ name = 'Sign',  				elements = { wooden = 80 },					text = 'This sign is empty' }
 local desert = 	{ name = 'Desert', 				elements = { wooden = 70 } }
 
 return { 
