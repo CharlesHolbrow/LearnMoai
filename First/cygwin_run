@@ -1,5 +1,0 @@
-# Something like this should be in ~/.bash_profile
-#MOAI_BIN=/cygdrive/f/MyDev/Moai/moai-sdk/bin/win32/moai.exe
-#MOAI_CONFIG=/cygdrive/f/MyDev/Moai/moai-sdk/samples/config/config.lua
-
-$MOAI_BIN $MOAI_CONFIG main.lua
