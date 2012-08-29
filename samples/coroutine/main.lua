@@ -1,58 +1,43 @@
 MOAISim.openWindow ( 'Coroutine Test', 100, 100 )
 
 
-c = MOAICoroutine.new () -- Do this, but use a regular coroutine, and call coroutine.resume from state's onUpdate
+c1 = MOAICoroutine.new ()
+c2 = MOAICoroutine.new ()
+
+m = MOAICoroutine.new ()
+
 a = MOAIAction.new ()
-p = MOAIProp2D.new ()
-
-
 a:start ()
 
-print ( 'start- isactive', a:isActive () )
 
-function g ()
+function f ( s )
 
-	--print ( MOAISim.getPerformance () )
+	while not MOAIInputMgr.device.mouseLeft:down () do
 
-	if MOAIInputMgr.device.mouseLeft:down () then
-
-		a:addChild ( p:moveLoc ( 4, 4, 5 ) ) 
-		a:start ()
-		print ( "isActive", a:isActive () )
-
-		--return 
-	end
-
-	if a:isActive () then 
-
-		print ( 'a is active', a:isActive () )
-	else
-
-		print  ( 'NOT ACTIVE' )
-	end
-
-
-	return 'running'
-end
-
-
-function f ()
-
-	local done = false
-
-	while g() == 'running' do
-
+		print ( 'Waiting for mouse down, but not blocking', s )
 		coroutine.yield ()
 	end
 
-	-- advance pointer! 
-
+	print ( 'Mouse Down' )
 end
- 
-c:run ( f )
 
-print ( 'OKAY' )
 
+function mainLoop () 
+
+	for i = 1, 1000 do 
+
+		print ( 'Main Loop', i )
+		coroutine.yield ()
+	end 
+end
+
+c2:run ( f, 'This is C2' )
+c1:run ( f, 'This is C1' )
+
+m:run ( mainLoop )
+
+m:addChild ( c1 ) 
+c1:addChild ( c2 )
 
 
 
